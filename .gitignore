@@ -12,8 +12,7 @@ DebugConfig/
 
 # Keil user settings
 *.uvguix.xf  # 根据user自行调整
-*.uvoptx.*
-*.uvgui.*
+*.uvoptx
 
 # VS Code
 .vscode/
