@@ -1,0 +1,23 @@
+# Keil build output
+Objects/
+Listings/
+DebugConfig/
+*.o
+*.d
+*.axf
+*.hex
+*.bin
+*.map
+*.lst
+
+# Keil user settings
+*.uvguix.xf  # 根据user自行调整
+*.uvoptx.*
+*.uvgui.*
+
+# VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
