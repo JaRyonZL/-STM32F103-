@@ -1,22 +1,41 @@
-# Keil build output
-Objects/
-Listings/
-DebugConfig/
-*.o
-*.d
+# Keil uVision 项目文件（临时/本地）
+*.uvopt
+*.uvoptx
+*.uvgui
+*.uvguix.xf   
+*.uvprojx
+
+# 编译输出
 *.axf
 *.hex
-*.bin
+*.o
+*.d
+*.crf
+*.elf
 *.map
 *.lst
+*.lnp
+*.uvprojx.Backup
+*.bak
 
-# Keil user settings
-*.uvguix.xf  # 根据user自行调整
-*.uvoptx
+# Keil 生成的中间文件夹
+Objects/
+Listings/
+Build/
+RTE/
+DebugConfig/
 
-# VS Code
+# STM32CubeMX 生成的临时目录
+Debug/
+Release/
+
+# VSCode
 .vscode/
 
-# OS
-.DS_Store
+# 系统文件
 Thumbs.db
+*.log
+*.swp
+*.swo
+*.tmp
+.DS_Store
