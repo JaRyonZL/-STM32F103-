@@ -2,8 +2,6 @@
 
 int main(void)
 {
-	// 时钟初始化后的led闪烁测试
-
 	/*使用PA10测试*/
 	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
 	GPIOA->CRH &= ~(GPIO_CRH_MODE10 | GPIO_CRH_CNF10);
