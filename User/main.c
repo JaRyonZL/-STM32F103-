@@ -17,16 +17,16 @@ int main(void)
 	{
 		// 南北向绿灯亮5秒
 		TrafficLight_SN_Green();
-		Delay_s(5);
+		Delay_s(500);
 		// 南北向黄灯亮2秒
 		TrafficLight_SN_Yallow();
-		Delay_s(2);
+		Delay_s(200);
 		// 东西向绿灯亮5秒
 		TrafficLight_EW_Green();
-		Delay_s(5);
+		Delay_s(500);
 		// 东西向黄灯亮2秒
 		TrafficLight_EW_Yallow();
-		Delay_s(2);
+		Delay_s(200);
 	}
 }
 
