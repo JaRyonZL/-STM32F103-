@@ -9,40 +9,60 @@
 #include "trafficLed.h"
 #include "seg.h"
 #include "config.h"
+#include "tim2.h"
 
 int main(void)
 {
-	// // 交通灯测试
-	// TrafficLight_Init();
+	TIM2_Init();
+	// 交通灯测试
+	TrafficLight_Init();
 
 	// 数码管测试
 	Segment_Init();
 
-	uint32_t i = 0;
-	uint32_t c = 0;
 	while (1)
 	{
-		// // 南北向绿灯亮5秒
-		// TrafficLight_SN_Green();
-		// Delay_s(500);
-		// // 南北向黄灯亮2秒
-		// TrafficLight_SN_Yallow();
-		// Delay_s(200);
-		// // 东西向绿灯亮5秒
-		// TrafficLight_EW_Green();
-		// Delay_s(500);
-		// // 东西向黄灯亮2秒
-		// TrafficLight_EW_Yallow();
-		// Delay_s(200);
-
-		// 数码管显示测试
-		if (i >= 2000)
-		{
-			i = 0;
-			c++;
-			if(c >= 100) c = 0;
-		}
-		Segment_Display_Number(c, 99 - c);
-		i++;
+		
 	}
+}
+
+void TrafficLight_Test(void)
+{
+	static uint32_t count = 0;
+	count++;
+
+	if (count <= 5000)
+	{
+		// 南北向绿灯亮
+		TrafficLight_SN_Green();
+	}
+	else if (count <= 7000)
+	{
+		// 南北向黄灯亮
+		TrafficLight_SN_Yallow();
+	}
+	else if (count <= 12000)
+	{
+		// 东西向绿灯亮
+		TrafficLight_EW_Green();
+	}
+	else if (count <= 14000)
+	{
+		// 东西向黄灯亮
+		TrafficLight_EW_Yallow();
+	}
+	else
+	{
+		count = 0;
+	}
+}
+
+// TIM2中断处理程序
+void TIM2_IRQHandler(void)
+{
+	// 清除中断标志位
+	TIM2->SR &= ~TIM_SR_UIF;
+
+	TrafficLight_Test();
+
 }
