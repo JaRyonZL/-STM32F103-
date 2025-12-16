@@ -16,7 +16,7 @@
 void Delay_us(uint16_t us)
 {
     SysTick->CTRL |= SysTick_CTRL_CLKSOURCE;            
-    SysTick->LOAD = us * 72 - 1;                         // 72MHz时钟频率
+    SysTick->LOAD = us * 8 - 1;                         // 8MHz时钟频率
     SysTick->VAL = 0;                                   // 清空当前计数值
     SysTick->CTRL |= SysTick_CTRL_ENABLE;               // 使能SysTick定时器
     while (!(SysTick->CTRL & SysTick_CTRL_COUNTFLAG));  // 等待计数到达0
