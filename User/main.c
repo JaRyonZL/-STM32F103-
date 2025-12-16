@@ -17,12 +17,9 @@ int main(void)
 	// 交通灯测试
 	TrafficLight_Init();
 
-	// 数码管测试
-	Segment_Init();
-
 	while (1)
 	{
-		
+
 	}
 }
 
