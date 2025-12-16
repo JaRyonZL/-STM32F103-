@@ -18,6 +18,8 @@ int main(void)
 	// 数码管测试
 	Segment_Init();
 
+	uint32_t i = 0;
+	uint32_t c = 0;
 	while (1)
 	{
 		// // 南北向绿灯亮5秒
@@ -34,7 +36,13 @@ int main(void)
 		// Delay_s(200);
 
 		// 数码管显示测试
-
-		Segment_Display_Number(12, 34);
+		if (i >= 2000)
+		{
+			i = 0;
+			c++;
+			if(c >= 100) c = 0;
+		}
+		Segment_Display_Number(c, 99 - c);
+		i++;
 	}
 }

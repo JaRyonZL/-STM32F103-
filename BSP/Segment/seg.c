@@ -146,7 +146,6 @@ void Segment_Display_Digit(uint8_t num)
     if (!(seg_code & 0x40)) GPIO_ResetPin(SEGMENT_PORT, SEG_G_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_G_PIN);
 }
 
-
 /**
  * @brief      显示数字0-99在对应数码管上
  * @param      uint8_t sn_num 南北向数字
@@ -172,14 +171,14 @@ void Segment_Display_Number(uint8_t ewNum, uint8_t snNum)
     Segment_Display_Digit(ewTens);  // 显示数字
     GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT1_PIN);  // 开启第一位
     // 延时一段时间以保持显示
-    Delay_ms(5);
+    Delay_ms(10);
 
     // 显示个位
     Segment_Disable();
     Segment_Display_Digit(ewUnits);
     GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT2_PIN);
     // 延时一段时间以保持显示
-    Delay_ms(5);
+    Delay_ms(10);
 
     // 显示南北向数码管
     // 显示十位 
@@ -187,12 +186,12 @@ void Segment_Display_Number(uint8_t ewNum, uint8_t snNum)
     Segment_Display_Digit(snTens);
     GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT3_PIN);
     // 延时一段时间以保持显示
-    Delay_ms(5);
+    Delay_ms(10);
 
     // 显示个位
     Segment_Disable();
     Segment_Display_Digit(snUnits);
     GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT4_PIN);
     // 延时一段时间以保持显示
-    Delay_ms(5);
+    Delay_ms(10);
 }
