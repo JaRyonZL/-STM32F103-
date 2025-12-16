@@ -15,15 +15,15 @@
   *          is using in the C source code, usually in main.c. This file contains:
   *           - Configuration section that allows to select:
   *              - The device used in the target application
-  *              - To use or not the peripheral抯 drivers in application code(i.e. 
-  *                code will be based on direct access to peripheral抯 registers 
+  *              - To use or not the peripheral�s drivers in application code(i.e. 
+  *                code will be based on direct access to peripheral�s registers 
   *                rather than drivers API), this option is controlled by 
   *                "#define USE_STDPERIPH_DRIVER"
   *              - To change few application-specific parameters such as the HSE 
   *                crystal frequency
   *           - Data structures and the address mapping for all peripherals
   *           - Peripheral's registers declarations and bits definition
-  *           - Macros to access peripheral抯 registers hardware
+  *           - Macros to access peripheral�s registers hardware
   *
   ******************************************************************************
   * @attention
@@ -64,9 +64,9 @@
 #if !defined (STM32F10X_LD) && !defined (STM32F10X_LD_VL) && !defined (STM32F10X_MD) && !defined (STM32F10X_MD_VL) && !defined (STM32F10X_HD) && !defined (STM32F10X_HD_VL) && !defined (STM32F10X_XL) && !defined (STM32F10X_CL) 
    #define STM32F10X_LD      /*!< STM32F10X_LD: STM32 Low density devices */
   /* #define STM32F10X_LD_VL */  /*!< STM32F10X_LD_VL: STM32 Low density Value Line devices */
-   #define STM32F10X_MD      /*!< STM32F10X_MD: STM32 Medium density devices */
+  /* #define STM32F10X_MD */     /*!< STM32F10X_MD: STM32 Medium density devices */
   /* #define STM32F10X_MD_VL */  /*!< STM32F10X_MD_VL: STM32 Medium density Value Line devices */
-  /* #define STM32F10X_HD */     /*!< STM32F10X_HD: STM32 High density devices */
+   #define STM32F10X_HD      /*!< STM32F10X_HD: STM32 High density devices */
   /* #define STM32F10X_HD_VL */  /*!< STM32F10X_HD_VL: STM32 High density value line devices */
   /* #define STM32F10X_XL */     /*!< STM32F10X_XL: STM32 XL-density devices */
   /* #define STM32F10X_CL */     /*!< STM32F10X_CL: STM32 Connectivity line devices */
@@ -222,7 +222,7 @@ typedef enum IRQn
   USBWakeUp_IRQn              = 42      /*!< USB Device WakeUp from suspend through EXTI Line Interrupt */
 #endif /* STM32F10X_LD */  
 
-#ifdef STM32F10X_LD_VL
+#ifdef STM32F10X_LD_VLF
   ADC1_IRQn                   = 18,     /*!< ADC1 global Interrupt                                */
   EXTI9_5_IRQn                = 23,     /*!< External Line[9:5] Interrupts                        */
   TIM1_BRK_TIM15_IRQn         = 24,     /*!< TIM1 Break and TIM15 Interrupts                      */
