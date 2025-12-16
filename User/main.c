@@ -34,8 +34,7 @@ int main(void)
 
 		// 数码管显示测试
 		i = i % 100;
-		Segment_Display_Number(1, i);	   // 东西向显示
-		// Segment_Display_Number(2, 99 - i); // 南北向显示
+		Segment_Display_Number(i, 99 - i);
 
 		Delay_s(100); // 显示1s
 		i++;

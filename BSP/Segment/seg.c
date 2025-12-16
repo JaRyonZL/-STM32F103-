@@ -112,41 +112,28 @@ void Segment_Clear(void)
 
 /**
  * @brief      显示数字0-99在对应数码管上
- * @param      uint8_t sel 选择数码管 1-东西向 2-南北向
- * @param      uint8_t num 数字
+ * @param      uint8_t sn_num 南北向数字
+ * @param      uint8_t ew_num 东西向数字
  * @return     
  * @example    
  * @attention  动态扫描显示
  */
-void Segment_Display_Number(uint8_t sel, uint8_t num)
+void Segment_Display_Number(uint8_t ewNum, uint8_t snNum)
 {
     // 显示数据合法性检查
-    if (num > 99) return;
+    if (ewNum > 99) return;
+    if (snNum > 99) return;
     // 位码分离
-    uint8_t tens = num / 10;      // 十位
-    uint8_t units = num % 10;     // 个位
-
-    // 选择数码管-位选控制
-    if (sel == 1) // 东西向
-    {
-        Segment_Enable_EW(1);
-        Segment_Enable_SN(0);
-    }
-    else if (sel == 2) // 南北向
-    {
-        Segment_Enable_EW(0);
-        Segment_Enable_SN(1);
-    }
-    else
-    {
-        // 非法选择，直接返回
-        return;
-    }
+    uint8_t ewTens = ewNum / 10;      // 十位
+    uint8_t ewUnits = ewNum % 10;     // 个位
+    uint8_t snTens = snNum / 10;      // 十位
+    uint8_t snUnits = snNum % 10;     // 个位
     
+    // 显示东西向数码管
     // 显示十位 
     Segment_Clear();
-    uint8_t seg_code = segment_digit_map[tens];
-    if (tens == 0)  {seg_code = 0xFF;} // 十位为0时不显示
+    uint8_t seg_code = segment_digit_map[ewTens];
+    // if (ewTens == 0)  {seg_code = 0xFF;} // 十位为0时不显示
     // 循环设置各位段选
     if (!(seg_code & 0x01)) GPIO_ResetPin(SEGMENT_PORT, SEG_A_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_A_PIN);
     if (!(seg_code & 0x02)) GPIO_ResetPin(SEGMENT_PORT, SEG_B_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_B_PIN);
@@ -159,7 +146,7 @@ void Segment_Display_Number(uint8_t sel, uint8_t num)
     Delay_us(500);
     // 显示个位
     Segment_Clear();
-    seg_code = segment_digit_map[units];
+    seg_code = segment_digit_map[ewUnits];
     // 循环设置各位段选
     if (!(seg_code & 0x01)) GPIO_ResetPin(SEGMENT_PORT, SEG_A_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_A_PIN);
     if (!(seg_code & 0x02)) GPIO_ResetPin(SEGMENT_PORT, SEG_B_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_B_PIN);
@@ -171,4 +158,32 @@ void Segment_Display_Number(uint8_t sel, uint8_t num)
     // 延时一段时间以保持显示
     Delay_us(500);
 
+    // 显示南北向数码管
+    // 显示十位 
+    Segment_Clear();
+    seg_code = segment_digit_map[ewTens];
+    // if (ewTens == 0)  {seg_code = 0xFF;} // 十位为0时不显示
+    // 循环设置各位段选
+    if (!(seg_code & 0x01)) GPIO_ResetPin(SEGMENT_PORT, SEG_A_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_A_PIN);
+    if (!(seg_code & 0x02)) GPIO_ResetPin(SEGMENT_PORT, SEG_B_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_B_PIN);
+    if (!(seg_code & 0x04)) GPIO_ResetPin(SEGMENT_PORT, SEG_C_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_C_PIN);
+    if (!(seg_code & 0x08)) GPIO_ResetPin(SEGMENT_PORT, SEG_D_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_D_PIN);
+    if (!(seg_code & 0x10)) GPIO_ResetPin(SEGMENT_PORT, SEG_E_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_E_PIN);
+    if (!(seg_code & 0x20)) GPIO_ResetPin(SEGMENT_PORT, SEG_F_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_F_PIN);
+    if (!(seg_code & 0x40)) GPIO_ResetPin(SEGMENT_PORT, SEG_G_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_G_PIN);
+    // 延时一段时间以保持显示
+    Delay_us(500);
+    // 显示个位
+    Segment_Clear();
+    seg_code = segment_digit_map[ewUnits];
+    // 循环设置各位段选
+    if (!(seg_code & 0x01)) GPIO_ResetPin(SEGMENT_PORT, SEG_A_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_A_PIN);
+    if (!(seg_code & 0x02)) GPIO_ResetPin(SEGMENT_PORT, SEG_B_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_B_PIN);
+    if (!(seg_code & 0x04)) GPIO_ResetPin(SEGMENT_PORT, SEG_C_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_C_PIN);
+    if (!(seg_code & 0x08)) GPIO_ResetPin(SEGMENT_PORT, SEG_D_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_D_PIN);
+    if (!(seg_code & 0x10)) GPIO_ResetPin(SEGMENT_PORT, SEG_E_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_E_PIN);
+    if (!(seg_code & 0x20)) GPIO_ResetPin(SEGMENT_PORT, SEG_F_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_F_PIN);
+    if (!(seg_code & 0x40)) GPIO_ResetPin(SEGMENT_PORT, SEG_G_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_G_PIN);
+    // 延时一段时间以保持显示
+    Delay_us(500);
 }
