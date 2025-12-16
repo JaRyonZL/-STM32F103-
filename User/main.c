@@ -6,22 +6,27 @@
  */
 #include "stm32f10x.h"
 #include "Delay.h"
+#include "trafficLed.h"
 
 int main(void)
 {
-	/*使用PA10测试*/
-	RCC->APB2ENR |= RCC_APB2ENR_IOPAEN;
-	GPIOA->CRH &= ~(GPIO_CRH_MODE10 | GPIO_CRH_CNF10);
-	GPIOA->CRH |= GPIO_CRH_MODE10;	// 通用推挽输出 50MHz
-	// 默认熄灭 LED低电平点亮，高电平熄灭
-	GPIOA->BSRR |= GPIO_BSRR_BS10;
+	// 交通灯测试
+	TrafficLight_Init();
 
 	while(1)
 	{
-		GPIOA->BRR |= GPIO_BRR_BR10;	// 点亮 LED
-		Delay_ms(1000);
-		GPIOA->BSRR |= GPIO_BSRR_BS10;	// 熄灭 LED
-		Delay_ms(1000);
+		// 南北向绿灯亮5秒
+		TrafficLight_SN_Green();
+		Delay_s(5);
+		// 南北向黄灯亮2秒
+		TrafficLight_SN_Yallow();
+		Delay_s(2);
+		// 东西向绿灯亮5秒
+		TrafficLight_EW_Green();
+		Delay_s(5);
+		// 东西向黄灯亮2秒
+		TrafficLight_EW_Yallow();
+		Delay_s(2);
 	}
 }
 
