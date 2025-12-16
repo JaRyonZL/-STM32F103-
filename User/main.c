@@ -1,4 +1,11 @@
+/*
+ * @Descripttion: 
+ * @Author: JaRyon
+ * @version: 
+ * @Date: 2025-12-16 12:55:42
+ */
 #include "stm32f10x.h"
+#include "Delay.h"
 
 int main(void)
 {
@@ -11,8 +18,10 @@ int main(void)
 
 	while(1)
 	{
-		GPIOC->ODR ^= GPIO_ODR_ODR10;           // 翻转 LED
-        for(volatile int i = 0; i < 500000; i++);
+		GPIOA->BRR |= GPIO_BRR_BR10;	// 点亮 LED
+		Delay_ms(1000);
+		GPIOA->BSRR |= GPIO_BSRR_BS10;	// 熄灭 LED
+		Delay_ms(1000);
 	}
 }
 
