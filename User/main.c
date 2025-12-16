@@ -8,6 +8,7 @@
 #include "Delay.h"
 #include "trafficLed.h"
 #include "seg.h"
+#include "config.h"
 
 int main(void)
 {
@@ -16,7 +17,7 @@ int main(void)
 
 	// 数码管测试
 	Segment_Init();
-	uint8_t i = 0;
+
 	while (1)
 	{
 		// // 南北向绿灯亮5秒
@@ -33,10 +34,7 @@ int main(void)
 		// Delay_s(200);
 
 		// 数码管显示测试
-		i = i % 100;
-		Segment_Display_Number(i, 99 - i);
 
-		Delay_s(100); // 显示1s
-		i++;
+		Segment_Display_Number(12, 34);
 	}
 }
