@@ -208,63 +208,118 @@ static void SetSysClock(void);
   * @param  None
   * @retval None
   */
-void SystemInit (void)
-{
-  /* Reset the RCC clock configuration to the default reset state(for debug purpose) */
-  /* Set HSION bit */
-  RCC->CR |= (uint32_t)0x00000001;
+// void SystemInit (void)
+// {
+//   /* Reset the RCC clock configuration to the default reset state(for debug purpose) */
+//   /* Set HSION bit */
+//   RCC->CR |= (uint32_t)0x00000001;
 
-  /* Reset SW, HPRE, PPRE1, PPRE2, ADCPRE and MCO bits */
-#ifndef STM32F10X_CL
-  RCC->CFGR &= (uint32_t)0xF8FF0000;
-#else
-  RCC->CFGR &= (uint32_t)0xF0FF0000;
-#endif /* STM32F10X_CL */   
+//   /* Reset SW, HPRE, PPRE1, PPRE2, ADCPRE and MCO bits */
+// #ifndef STM32F10X_CL
+//   RCC->CFGR &= (uint32_t)0xF8FF0000;
+// #else
+//   RCC->CFGR &= (uint32_t)0xF0FF0000;
+// #endif /* STM32F10X_CL */   
   
-  /* Reset HSEON, CSSON and PLLON bits */
-  RCC->CR &= (uint32_t)0xFEF6FFFF;
+//   /* Reset HSEON, CSSON and PLLON bits */
+//   RCC->CR &= (uint32_t)0xFEF6FFFF;
 
-  /* Reset HSEBYP bit */
-  RCC->CR &= (uint32_t)0xFFFBFFFF;
+//   /* Reset HSEBYP bit */
+//   RCC->CR &= (uint32_t)0xFFFBFFFF;
 
-  /* Reset PLLSRC, PLLXTPRE, PLLMUL and USBPRE/OTGFSPRE bits */
-  RCC->CFGR &= (uint32_t)0xFF80FFFF;
+//   /* Reset PLLSRC, PLLXTPRE, PLLMUL and USBPRE/OTGFSPRE bits */
+//   RCC->CFGR &= (uint32_t)0xFF80FFFF;
 
-#ifdef STM32F10X_CL
-  /* Reset PLL2ON and PLL3ON bits */
-  RCC->CR &= (uint32_t)0xEBFFFFFF;
+// #ifdef STM32F10X_CL
+//   /* Reset PLL2ON and PLL3ON bits */
+//   RCC->CR &= (uint32_t)0xEBFFFFFF;
 
-  /* Disable all interrupts and clear pending bits  */
-  RCC->CIR = 0x00FF0000;
+//   /* Disable all interrupts and clear pending bits  */
+//   RCC->CIR = 0x00FF0000;
 
-  /* Reset CFGR2 register */
-  RCC->CFGR2 = 0x00000000;
-#elif defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL) || (defined STM32F10X_HD_VL)
-  /* Disable all interrupts and clear pending bits  */
-  RCC->CIR = 0x009F0000;
+//   /* Reset CFGR2 register */
+//   RCC->CFGR2 = 0x00000000;
+// #elif defined (STM32F10X_LD_VL) || defined (STM32F10X_MD_VL) || (defined STM32F10X_HD_VL)
+//   /* Disable all interrupts and clear pending bits  */
+//   RCC->CIR = 0x009F0000;
 
-  /* Reset CFGR2 register */
-  RCC->CFGR2 = 0x00000000;      
-#else
-  /* Disable all interrupts and clear pending bits  */
-  RCC->CIR = 0x009F0000;
-#endif /* STM32F10X_CL */
+//   /* Reset CFGR2 register */
+//   RCC->CFGR2 = 0x00000000;      
+// #else
+//   /* Disable all interrupts and clear pending bits  */
+//   RCC->CIR = 0x009F0000;
+// #endif /* STM32F10X_CL */
     
-#if defined (STM32F10X_HD) || (defined STM32F10X_XL) || (defined STM32F10X_HD_VL)
-  #ifdef DATA_IN_ExtSRAM
-    SystemInit_ExtMemCtl(); 
-  #endif /* DATA_IN_ExtSRAM */
-#endif 
+// #if defined (STM32F10X_HD) || (defined STM32F10X_XL) || (defined STM32F10X_HD_VL)
+//   #ifdef DATA_IN_ExtSRAM
+//     SystemInit_ExtMemCtl(); 
+//   #endif /* DATA_IN_ExtSRAM */
+// #endif 
 
-  /* Configure the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers */
-  /* Configure the Flash Latency cycles and enable prefetch buffer */
-  SetSysClock();
+//   /* Configure the System clock frequency, HCLK, PCLK2 and PCLK1 prescalers */
+//   /* Configure the Flash Latency cycles and enable prefetch buffer */
+//   SetSysClock();
 
+// #ifdef VECT_TAB_SRAM
+//   SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM. */
+// #else
+//   SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH. */
+// #endif 
+// }
+
+// 重新配置时钟，使用外部晶振作为系统时钟源
+void SystemInit(void)
+{
+    /* 1. 复位 RCC 配置到默认状态 */
+    RCC->CR |= RCC_CR_HSION;                     // 使能 HSI
+    RCC->CFGR &= 0xF8FF0000;                     // 复位 CFGR
+    RCC->CR &= 0xFEF6FFFF;                       // 关闭 HSE、CSS、PLL
+    RCC->CR &= 0xFFFBFFFF;                       // 复位 HSEBYP
+    RCC->CFGR &= 0xFF80FFFF;                     // 复位 PLL 配置
+    RCC->CIR = 0x009F0000;                       // 禁用所有中断并清除 pending
+
+    /* 2. 启用外部高速晶振 HSE = 8MHz */
+    RCC->CR |= RCC_CR_HSEON;                     // 使能 HSE
+    while (!(RCC->CR & RCC_CR_HSERDY));          // 等待 HSE 就绪
+
+    /* 3. 配置 Flash 延时和预取 */
+    FLASH->ACR |= FLASH_ACR_PRFTBE;             // 使能预取缓冲
+    FLASH->ACR &= ~FLASH_ACR_LATENCY;
+    FLASH->ACR |= FLASH_ACR_LATENCY_2;          // 72MHz 下延时 2 个周期
+
+    /* 4. 配置 AHB, APB1, APB2 分频 */
+    RCC->CFGR |= RCC_CFGR_HPRE_DIV1;            // HCLK = SYSCLK
+    RCC->CFGR |= RCC_CFGR_PPRE2_DIV1;           // PCLK2 = HCLK
+    RCC->CFGR |= RCC_CFGR_PPRE1_DIV2;           // PCLK1 = HCLK/2
+
+    /* 5. 配置 PLL: PLLCLK = HSE * 9 = 72MHz */
+    RCC->CFGR &= ~RCC_CFGR_PLLSRC;
+    RCC->CFGR |= RCC_CFGR_PLLSRC;               // HSE 作为 PLL 输入
+    RCC->CFGR &= ~RCC_CFGR_PLLMULL;
+    RCC->CFGR |= RCC_CFGR_PLLMULL9;             // PLL x9
+    RCC->CR |= RCC_CR_PLLON;                     // 使能 PLL
+    while (!(RCC->CR & RCC_CR_PLLRDY));         // 等待 PLL 就绪
+
+    /* 6. 切换系统时钟到 PLL */
+    RCC->CFGR &= ~RCC_CFGR_SW;
+    RCC->CFGR |= RCC_CFGR_SW_PLL;
+    while ((RCC->CFGR & RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL);
+
+    /* 7. 配置 LSE 为 32.768kHz 并同步 LSI（可用于独立看门狗或 RTC） */
+    RCC->BDCR |= RCC_BDCR_LSEON;                // 使能 LSE
+    while (!(RCC->BDCR & RCC_BDCR_LSERDY));     // 等待 LSE 就绪
+    RCC->BDCR |= RCC_BDCR_RTCSEL_LSE;           // RTC 时钟选择 LSE
+    RCC->BDCR |= RCC_BDCR_RTCEN;                // 使能 RTC
+
+    RCC->CSR |= RCC_CSR_LSION;                  // 使能 LSI（内部 40kHz 看门狗时钟）
+    while (!(RCC->CSR & RCC_CSR_LSIRDY));       // 等待 LSI 就绪
+
+    /* 8. 设置向量表位置 */
 #ifdef VECT_TAB_SRAM
-  SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM. */
+    SCB->VTOR = SRAM_BASE | VECT_TAB_OFFSET;    // 中断向量表在 SRAM
 #else
-  SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal FLASH. */
-#endif 
+    SCB->VTOR = FLASH_BASE | VECT_TAB_OFFSET;   // 中断向量表在 Flash
+#endif
 }
 
 /**
