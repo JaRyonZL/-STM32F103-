@@ -10,6 +10,7 @@
 #include "stm32f10x.h"
 
 void GPIO_TrafficLight_Init(void);
+void GPIO_Segment_Init(void);
 void GPIO_SetPin(GPIO_TypeDef* GPIOx, uint32_t Pin);
 void GPIO_ResetPin(GPIO_TypeDef* GPIOx, uint32_t Pin);
 

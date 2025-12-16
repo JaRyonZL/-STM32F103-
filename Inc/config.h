@@ -20,4 +20,21 @@
 #define EW_GREEN_PIN        GPIO_ODR_ODR14  // 东西向绿灯 - PA14
 #define EW_YALLOW_PIN       GPIO_ODR_ODR15  // 东西向黄灯 - PA15
 
+// 数码管控制引脚定义
+#define SEGMENT_PORT        GPIOB           // 数码管端口
+
+#define SEG_A_PIN           GPIO_ODR_ODR0   // 段选 a - PB0
+#define SEG_B_PIN           GPIO_ODR_ODR1   // 段选 b - PB1
+#define SEG_C_PIN           GPIO_ODR_ODR2   // 段选 c - PB2
+#define SEG_D_PIN           GPIO_ODR_ODR3   // 段选 d - PB3
+#define SEG_E_PIN           GPIO_ODR_ODR4   // 段选 e - PB4
+#define SEG_F_PIN           GPIO_ODR_ODR5   // 段选 f - PB5
+#define SEG_G_PIN           GPIO_ODR_ODR6   // 段选 g - PB6
+#define SEG_DP_PIN          GPIO_ODR_ODR7   // 段选 dp - PB7
+
+#define SEG_DIGIT1_PIN      GPIO_ODR_ODR8   // 位选 第1位 - PB8
+#define SEG_DIGIT2_PIN      GPIO_ODR_ODR9   // 位选 第2位 - PB9
+#define SEG_DIGIT3_PIN      GPIO_ODR_ODR10  // 位选 第3位 - PB10
+#define SEG_DIGIT4_PIN      GPIO_ODR_ODR11  // 位选 第4位 - PB11
+
 #endif // !__CONFIG_H

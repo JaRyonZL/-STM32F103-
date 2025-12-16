@@ -1,32 +1,43 @@
 /*
- * @Descripttion: 
+ * @Descripttion:
  * @Author: JaRyon
- * @version: 
+ * @version:
  * @Date: 2025-12-16 12:55:42
  */
 #include "stm32f10x.h"
 #include "Delay.h"
 #include "trafficLed.h"
+#include "seg.h"
 
 int main(void)
 {
-	// 交通灯测试
-	TrafficLight_Init();
+	// // 交通灯测试
+	// TrafficLight_Init();
 
-	while(1)
+	// 数码管测试
+	Segment_Init();
+	uint8_t i = 0;
+	while (1)
 	{
-		// 南北向绿灯亮5秒
-		TrafficLight_SN_Green();
-		Delay_s(500);
-		// 南北向黄灯亮2秒
-		TrafficLight_SN_Yallow();
-		Delay_s(200);
-		// 东西向绿灯亮5秒
-		TrafficLight_EW_Green();
-		Delay_s(500);
-		// 东西向黄灯亮2秒
-		TrafficLight_EW_Yallow();
-		Delay_s(200);
+		// // 南北向绿灯亮5秒
+		// TrafficLight_SN_Green();
+		// Delay_s(500);
+		// // 南北向黄灯亮2秒
+		// TrafficLight_SN_Yallow();
+		// Delay_s(200);
+		// // 东西向绿灯亮5秒
+		// TrafficLight_EW_Green();
+		// Delay_s(500);
+		// // 东西向黄灯亮2秒
+		// TrafficLight_EW_Yallow();
+		// Delay_s(200);
+
+		// 数码管显示测试
+		i = i % 100;
+		Segment_Display_Number(1, i);	   // 东西向显示
+		// Segment_Display_Number(2, 99 - i); // 南北向显示
+
+		Delay_s(100); // 显示1s
+		i++;
 	}
 }
-
