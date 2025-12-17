@@ -7,6 +7,29 @@
 #include "trafficLed.h"
 #include "config.h"
 
+#define LED_ON(GPIO_PORT, GPIO_PIN)   GPIO_ResetPin(GPIO_PORT, GPIO_PIN)
+#define LED_OFF(GPIO_PORT, GPIO_PIN)  GPIO_SetPin(GPIO_PORT, GPIO_PIN)
+
+
+/**
+ * @brief      关闭所有交通灯
+ * @param      
+ * @return     
+ * @example    
+ * @attention  
+ */
+static void TrafficLight_AllOff(void)
+{
+    LED_OFF(SN_PORT, SN_RED_PIN);
+    LED_OFF(SN_PORT, SN_GREEN_PIN);
+    LED_OFF(SN_PORT, SN_YALLOW_PIN);
+
+    LED_OFF(EW_PORT, EW_RED_PIN);
+    LED_OFF(EW_PORT, EW_GREEN_PIN);
+    LED_OFF(EW_PORT, EW_YALLOW_PIN);
+}
+
+
 /**
  * @brief      南北东西向交通灯初始化
  * @param
@@ -19,12 +42,7 @@ void TrafficLight_Init(void)
     // 初始化
     GPIO_TrafficLight_Init();
     // 默认南北东西向红灯灭
-    GPIO_SetPin(SN_PORT, SN_RED_PIN);
-    GPIO_SetPin(SN_PORT, SN_GREEN_PIN);
-    GPIO_SetPin(SN_PORT, SN_YALLOW_PIN);
-    GPIO_SetPin(EW_PORT, EW_RED_PIN);
-    GPIO_SetPin(EW_PORT, EW_GREEN_PIN);
-    GPIO_SetPin(EW_PORT, EW_YALLOW_PIN);
+    TrafficLight_AllOff();
 }
 
 /**
@@ -36,14 +54,11 @@ void TrafficLight_Init(void)
  */
 void TrafficLight_SN_Green(void)
 {
-    // 关闭其他灯
-    GPIO_SetPin(SN_PORT, SN_RED_PIN);
-    GPIO_SetPin(EW_PORT, EW_GREEN_PIN);
-    GPIO_SetPin(SN_PORT, SN_YALLOW_PIN);
-    GPIO_SetPin(EW_PORT, EW_YALLOW_PIN);
+    // 关闭交通灯
+    TrafficLight_AllOff();
     // 南北向绿灯亮，东西向红灯亮
-    GPIO_ResetPin(SN_PORT, SN_GREEN_PIN);
-    GPIO_ResetPin(EW_PORT, EW_RED_PIN);
+    LED_ON(SN_PORT, SN_GREEN_PIN);
+    LED_ON(EW_PORT, EW_RED_PIN);
 }
 
 /**
@@ -55,14 +70,11 @@ void TrafficLight_SN_Green(void)
  */
 void TrafficLight_SN_Yallow(void)
 {
-    // 关闭其他灯
-    GPIO_SetPin(SN_PORT, SN_GREEN_PIN);
-    GPIO_SetPin(SN_PORT, SN_RED_PIN);
-    GPIO_SetPin(EW_PORT, EW_GREEN_PIN);
-    GPIO_SetPin(EW_PORT, EW_YALLOW_PIN);
+    // 关闭交通灯
+    TrafficLight_AllOff();
     // 南北向黄灯亮，东西向红灯亮
-    GPIO_ResetPin(SN_PORT, SN_YALLOW_PIN);
-    GPIO_ResetPin(EW_PORT, EW_RED_PIN);
+    LED_ON(SN_PORT, SN_YALLOW_PIN);
+    LED_ON(EW_PORT, EW_RED_PIN);
 }
 
 /**
@@ -74,14 +86,11 @@ void TrafficLight_SN_Yallow(void)
  */
 void TrafficLight_EW_Green(void)
 {
-    // 关闭其他灯
-    GPIO_SetPin(SN_PORT, SN_GREEN_PIN);
-    GPIO_SetPin(SN_PORT, SN_YALLOW_PIN);
-    GPIO_SetPin(EW_PORT, EW_RED_PIN);
-    GPIO_SetPin(EW_PORT, EW_YALLOW_PIN);
+    // 关闭交通灯
+    TrafficLight_AllOff();
     // 东西向绿灯亮，南北向红灯亮
-    GPIO_ResetPin(EW_PORT, EW_GREEN_PIN);
-    GPIO_ResetPin(SN_PORT, SN_RED_PIN);
+    LED_ON(EW_PORT, EW_GREEN_PIN);
+    LED_ON(SN_PORT, SN_RED_PIN);
 }
 
 /**
@@ -93,12 +102,9 @@ void TrafficLight_EW_Green(void)
  */
 void TrafficLight_EW_Yallow(void)
 {
-    // 关闭其他灯
-    GPIO_SetPin(SN_PORT, SN_GREEN_PIN);
-    GPIO_SetPin(SN_PORT, SN_RED_PIN);
-    GPIO_SetPin(EW_PORT, EW_GREEN_PIN);
-    GPIO_SetPin(EW_PORT, EW_YALLOW_PIN);
+    // 关闭交通灯
+    TrafficLight_AllOff();
     // 东西向黄灯亮，南北向红灯亮
-    GPIO_ResetPin(EW_PORT, EW_YALLOW_PIN);
-    GPIO_ResetPin(SN_PORT, SN_RED_PIN);
+    LED_ON(EW_PORT, EW_YALLOW_PIN);
+    LED_ON(SN_PORT, SN_RED_PIN);
 }
