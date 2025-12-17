@@ -6,6 +6,7 @@
  */
 #include "tim2.h"
 #include "app_Traffic.h"
+#include "key.h"
 
 static uint32_t Tick = 0;
 
