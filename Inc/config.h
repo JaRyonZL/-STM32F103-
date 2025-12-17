@@ -13,12 +13,12 @@
 #define SN_PORT             GPIOA           // 南北向交通灯端口
 #define EW_PORT             GPIOA           // 东西向交通灯端口
 
-#define SN_RED_PIN          GPIO_ODR_ODR10  // 南北向红灯 - PA10
-#define SN_GREEN_PIN        GPIO_ODR_ODR11  // 南北向绿灯 - PA11
-#define SN_YALLOW_PIN       GPIO_ODR_ODR12  // 南北向黄灯 - PA12
-#define EW_RED_PIN          GPIO_ODR_ODR13  // 东西向红灯 - PA13
-#define EW_GREEN_PIN        GPIO_ODR_ODR14  // 东西向绿灯 - PA14
-#define EW_YALLOW_PIN       GPIO_ODR_ODR15  // 东西向黄灯 - PA15
+#define SN_RED_PIN          GPIO_ODR_ODR4  // 南北向红灯 - PA4
+#define SN_GREEN_PIN        GPIO_ODR_ODR5  // 南北向绿灯 - PA5
+#define SN_YALLOW_PIN       GPIO_ODR_ODR6  // 南北向黄灯 - PA6
+#define EW_RED_PIN          GPIO_ODR_ODR7  // 东西向红灯 - PA7
+#define EW_GREEN_PIN        GPIO_ODR_ODR8  // 东西向绿灯 - PA8
+#define EW_YALLOW_PIN       GPIO_ODR_ODR9  // 东西向黄灯 - PA9
 
 // 数码管控制引脚定义
 #define SEGMENT_PORT        GPIOB           // 数码管端口
