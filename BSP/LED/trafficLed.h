@@ -8,5 +8,6 @@ void TrafficLight_SN_Green(void);
 void TrafficLight_SN_Yallow(void);  
 void TrafficLight_EW_Green(void);
 void TrafficLight_EW_Yallow(void);
+void TrafficLight_All_Red(void);
 
 #endif // !__TRAFFICLED_H

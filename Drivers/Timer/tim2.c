@@ -5,6 +5,9 @@
  * @Date: 2025-12-16 21:00:34
  */
 #include "tim2.h"
+#include "app_Traffic.h"
+
+static uint32_t Tick = 0;
 
 /**
  * @brief      TIM2初始化
@@ -34,3 +37,24 @@ void TIM2_Init(void)
     TIM2->CR1 |= TIM_CR1_CEN;
 }
 
+/**
+ * @brief      获取Tick数
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+uint32_t TIM2_GetTick(void)
+{   
+    return Tick;
+}
+
+// TIM2中断处理程序
+void TIM2_IRQHandler(void)
+{
+	// 清除中断标志位
+	TIM2->SR &= ~TIM_SR_UIF;
+    Tick++;
+
+	TrafficLightSeg_Test();
+}

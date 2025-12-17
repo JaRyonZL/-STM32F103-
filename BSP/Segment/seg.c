@@ -119,6 +119,19 @@ void Segment_Clear(void)
 }
 
 /**
+ * @brief      设置一位数码管段码
+ * @param       
+ * @return     
+ * @example    
+ * @attention  内部调用
+ */
+static void Segment_SetSegmentCode(uint8_t seg_code)
+{
+    GPIOB->ODR = (GPIOB->ODR & 0xFF00) | seg_code; // 优化代码，直接操作寄存器
+}
+
+
+/**
  * @brief      一位数码管显示数字0-9
  * @param      uint8_t num 待显示的数字
  * @return     
@@ -130,7 +143,7 @@ void Segment_Display_Digit(uint8_t num)
     if (num > 9) return; // 数字超出范围
     uint8_t seg_code = segment_digit_map[num];
     // 循环设置各位段选
-    GPIOB->ODR = (GPIOB->ODR & 0xFF00) | seg_code; // 优化代码，直接操作寄存器
+    Segment_SetSegmentCode(seg_code);
 }
 
 void SEG_DelayMs(uint16_t time)

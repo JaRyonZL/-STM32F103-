@@ -1,4 +1,10 @@
 /*
+ * @Descripttion: 
+ * @Author: JaRyon
+ * @version: 
+ * @Date: 2025-12-16 15:23:07
+ */
+/*
  * @Descripttion:
  * @Author: JaRyon
  * @version:
@@ -108,3 +114,21 @@ void TrafficLight_EW_Yallow(void)
     LED_ON(EW_PORT, EW_YALLOW_PIN);
     LED_ON(SN_PORT, SN_RED_PIN);
 }
+
+/**
+ * @brief      交通灯全部红灯
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void TrafficLight_All_Red(void)
+{
+    // 关闭交通灯
+    TrafficLight_AllOff();
+    // 南北向红灯亮，东西向红灯亮
+    LED_ON(SN_PORT, SN_RED_PIN);
+    LED_ON(EW_PORT, EW_RED_PIN);
+}
+
+
