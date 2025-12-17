@@ -64,5 +64,6 @@ void TIM2_IRQHandler(void)
     {
         count = 0;timerFlag = 1; 
     }
+    Key_Tick(); // 按键处理
 
 }

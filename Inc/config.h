@@ -37,4 +37,17 @@
 #define SEG_DIGIT3_PIN      GPIO_ODR_ODR10  // 位选 第3位 - PB10
 #define SEG_DIGIT4_PIN      GPIO_ODR_ODR11  // 位选 第4位 - PB11
 
+// 模式按键引脚定义
+#define MODE_KEY_PORT  GPIOC   // 按键端口
+
+#define MODE_KEY1_PIN   GPIO_ODR_ODR0   // 按键1
+#define MODE_KEY2_PIN   GPIO_ODR_ODR1   // 按键2
+#define MODE_KEY3_PIN   GPIO_ODR_ODR2   // 按键3
+#define MODE_KEY4_PIN   GPIO_ODR_ODR3   // 按键4
+
+#define MODE_KEY1_PIN_R   GPIO_IDR_IDR0   // 按键1
+#define MODE_KEY2_PIN_R   GPIO_IDR_IDR1   // 按键2
+#define MODE_KEY3_PIN_R   GPIO_IDR_IDR2   // 按键3
+#define MODE_KEY4_PIN_R   GPIO_IDR_IDR3   // 按键4
+
 #endif // !__CONFIG_H

@@ -7,6 +7,7 @@
 #include "gpio.h"
 #include "config.h"
 
+
 /**
  * @brief      东西南北向红绿灯控制端口初始化
  * @param       
@@ -71,6 +72,30 @@ void GPIO_Segment_Init(void)
     SEGMENT_PORT->CRH |= GPIO_CRH_MODE11; 
 }
 
+/**
+ * @brief      模式按键端口配置
+ * @param       
+ * @return     
+ * @example    
+ * @attention  PC0-PC3
+ */
+void GPIO_ModeKey_Init(void)
+{
+    RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
+    // GPIO工作模式配置 上下拉输入 cnf-10 mode-00
+    // KEY1
+    MODE_KEY_PORT->CRL &= ~(GPIO_CRL_CNF0 | GPIO_CRL_MODE0);
+    MODE_KEY_PORT->CRL |= GPIO_CRL_CNF0_1;
+    // KEY2
+    MODE_KEY_PORT->CRL &= ~(GPIO_CRL_CNF1 | GPIO_CRL_MODE1);
+    MODE_KEY_PORT->CRL |= GPIO_CRL_CNF1_1;
+    // KEY3
+    MODE_KEY_PORT->CRL &= ~(GPIO_CRL_CNF2 | GPIO_CRL_MODE2);
+    MODE_KEY_PORT->CRL |= GPIO_CRL_CNF2_1;
+    // KEY4
+    MODE_KEY_PORT->CRL &= ~(GPIO_CRL_CNF3 | GPIO_CRL_MODE3);
+    MODE_KEY_PORT->CRL |= GPIO_CRL_CNF3_1;
+}
 
 /**
  * @brief      设置GPIO引脚
@@ -95,3 +120,5 @@ void GPIO_ResetPin(GPIO_TypeDef* GPIOx, uint32_t Pin)
 {
     GPIOx->ODR &= ~Pin;
 }
+
+
