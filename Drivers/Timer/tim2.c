@@ -17,7 +17,7 @@ void TIM2_Init(void)
 {
     // 开启TIM2时钟
     RCC->APB1ENR |= RCC_APB1ENR_TIM2EN;
-    // 72分频 1000重装载 -> 1ms
+    // 72分频 1000重装载
     TIM2->PSC = 72 - 1;
     TIM2->ARR = 1000 - 1;
     // 向上计数
