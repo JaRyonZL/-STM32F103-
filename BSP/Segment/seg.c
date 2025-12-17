@@ -115,14 +115,7 @@ void Segment_Disable(void)
  */
 void Segment_Clear(void)
 {
-    GPIO_SetPin(SEGMENT_PORT, SEG_A_PIN);
-    GPIO_SetPin(SEGMENT_PORT, SEG_B_PIN);
-    GPIO_SetPin(SEGMENT_PORT, SEG_C_PIN);
-    GPIO_SetPin(SEGMENT_PORT, SEG_D_PIN);
-    GPIO_SetPin(SEGMENT_PORT, SEG_E_PIN);
-    GPIO_SetPin(SEGMENT_PORT, SEG_F_PIN);
-    GPIO_SetPin(SEGMENT_PORT, SEG_G_PIN);
-    GPIO_SetPin(SEGMENT_PORT, SEG_DP_PIN);
+    GPIOB->ODR = (GPIOB->ODR & 0xFF00) | 0x00FF; // 优化代码，直接操作寄存器
 }
 
 /**
@@ -137,13 +130,7 @@ void Segment_Display_Digit(uint8_t num)
     if (num > 9) return; // 数字超出范围
     uint8_t seg_code = segment_digit_map[num];
     // 循环设置各位段选
-    if (!(seg_code & 0x01)) GPIO_ResetPin(SEGMENT_PORT, SEG_A_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_A_PIN);
-    if (!(seg_code & 0x02)) GPIO_ResetPin(SEGMENT_PORT, SEG_B_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_B_PIN);
-    if (!(seg_code & 0x04)) GPIO_ResetPin(SEGMENT_PORT, SEG_C_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_C_PIN);
-    if (!(seg_code & 0x08)) GPIO_ResetPin(SEGMENT_PORT, SEG_D_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_D_PIN);
-    if (!(seg_code & 0x10)) GPIO_ResetPin(SEGMENT_PORT, SEG_E_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_E_PIN);
-    if (!(seg_code & 0x20)) GPIO_ResetPin(SEGMENT_PORT, SEG_F_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_F_PIN);
-    if (!(seg_code & 0x40)) GPIO_ResetPin(SEGMENT_PORT, SEG_G_PIN); else GPIO_SetPin(SEGMENT_PORT, SEG_G_PIN);
+    GPIOB->ODR = (GPIOB->ODR & 0xFF00) | seg_code; // 优化代码，直接操作寄存器
 }
 
 void SEG_DelayMs(uint16_t time)
