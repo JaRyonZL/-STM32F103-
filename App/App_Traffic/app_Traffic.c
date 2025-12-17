@@ -10,6 +10,10 @@ uint8_t snTimer = 30;
 uint8_t ewTimer = 30;
 uint8_t timerFlag = 0;
 
+uint8_t yellowOn = 1; // 1=亮，0=灭
+uint16_t yellowTick = 0; // 毫秒计数
+
+
 /**
  * @brief      设置四向交通灯状态
  * @param      TrafficLightState_t state 待设置的状态
@@ -27,7 +31,7 @@ void TrafficLight_SetState(TrafficLightState state)
             break;
         case TL_SN_YELLOW:
             TrafficLight_SN_Yallow();
-            Segment_Display_Number(0, 5);  // 南北黄灯5s
+            Segment_Display_Number(0, 3);  // 南北黄灯3s
             break;
         case TL_EW_GREEN:
             TrafficLight_EW_Green();
@@ -35,7 +39,7 @@ void TrafficLight_SetState(TrafficLightState state)
             break;
         case TL_EW_YELLOW:
             TrafficLight_EW_Yallow();
-            Segment_Display_Number(5, 0);  // 东西黄灯5s
+            Segment_Display_Number(3, 0);  // 东西黄灯3s
             break;
         case TL_ALL_RED:
             TrafficLight_All_Red();

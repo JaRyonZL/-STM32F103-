@@ -59,6 +59,7 @@ int main(void)
                 case TL_SN_YELLOW:
                     if(snTimer > 0) snTimer--;
                     ewTimer = 0;
+					TrafficLight_SN_YellowBlink(); // 每秒闪烁
                     if(snTimer == 0)
                     {
                         TL_CurrState = TL_EW_GREEN;
@@ -82,6 +83,7 @@ int main(void)
                 case TL_EW_YELLOW:
                     if(ewTimer > 0) ewTimer--;
                     snTimer = 0;
+					TrafficLight_EW_YellowBlink(); // 每秒闪烁
                     if(ewTimer == 0)
                     {
                         TL_CurrState = TL_SN_GREEN;

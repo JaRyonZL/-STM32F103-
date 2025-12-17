@@ -22,6 +22,8 @@ typedef enum
 extern uint8_t snTimer;
 extern uint8_t ewTimer;
 extern uint8_t timerFlag;
+extern uint8_t yellowOn;
+extern uint16_t yellowTick;
 
 void TrafficLight_SetState(TrafficLightState state);
 
