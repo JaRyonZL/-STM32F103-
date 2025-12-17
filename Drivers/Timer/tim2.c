@@ -60,7 +60,7 @@ void TIM2_IRQHandler(void)
 
     static uint32_t count = 0;
     count++;
-    if (count >= 111) // 1秒到达
+    if (count >= 100) // 1秒到达
     {
         count = 0;timerFlag = 1; 
     }

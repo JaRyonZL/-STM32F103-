@@ -172,33 +172,49 @@ void Segment_Display_Number(uint8_t ewNum, uint8_t snNum)
     uint8_t snTens = snNum / 10;      // 十位
     uint8_t snUnits = snNum % 10;     // 个位
 
+    // 数字为0时不要点亮
+    if(ewNum == 0)  {ewTens = 0xFF;ewUnits = 0xFF;}
+    if(snNum == 0)  {snTens = 0xFF;snUnits = 0xFF;}
+
     // 显示东西向数码管
     // 显示十位 
     Segment_Disable();
-    Segment_Display_Digit(ewTens);  // 显示数字
-    GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT1_PIN);  // 开启第一位
-    // 延时一段时间以保持显示
-    SEG_DelayMs(2);
+    if(ewTens != 0xFF)
+    {
+        Segment_Display_Digit(ewTens);  // 显示数字
+        GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT1_PIN);  // 开启第一位
+        // 延时一段时间以保持显示
+        SEG_DelayMs(2);
+    }  
 
     // 显示个位
     Segment_Disable();
-    Segment_Display_Digit(ewUnits);
-    GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT2_PIN);
-    // 延时一段时间以保持显示
-    SEG_DelayMs(2);
+    if(ewUnits != 0xFF)
+    {
+        Segment_Display_Digit(ewUnits);
+        GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT2_PIN);
+        // 延时一段时间以保持显示
+        SEG_DelayMs(2);        
+    }
 
     // 显示南北向数码管
     // 显示十位 
     Segment_Disable();
-    Segment_Display_Digit(snTens);
-    GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT3_PIN);
-    // 延时一段时间以保持显示
-    SEG_DelayMs(2);
+    if(snTens != 0xFF)
+    {
+        Segment_Display_Digit(snTens);
+        GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT3_PIN);
+        // 延时一段时间以保持显示
+        SEG_DelayMs(2);        
+    }
 
     // 显示个位
     Segment_Disable();
-    Segment_Display_Digit(snUnits);
-    GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT4_PIN);
-    // 延时一段时间以保持显示
-    SEG_DelayMs(2);
+    if(snUnits != 0xFF)
+    {
+        Segment_Display_Digit(snUnits);
+        GPIO_SetPin(SEGMENT_PORT, SEG_DIGIT4_PIN);
+        // 延时一段时间以保持显示
+        SEG_DelayMs(2);        
+    }
 }

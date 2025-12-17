@@ -26,7 +26,7 @@ int main(void)
 
     // 延时1秒显示全红，然后切换到南北绿
     uint32_t delayCount = TIM2_GetTick();
-	while(TIM2_GetTick() - delayCount < 111 * 3) // 1秒延时
+	while(TIM2_GetTick() - delayCount < 111 * 2) // 2秒延时
 	{}
     TL_CurrState = TL_SN_GREEN;
     snTimer = 30;
@@ -47,7 +47,10 @@ int main(void)
             {
                 case TL_SN_GREEN:
                     if(snTimer > 0) snTimer--;
-                    ewTimer = 0;
+                    // 红灯方向在绿灯最后2s时开始倒计时
+					if(snTimer == 3)	ewTimer = 7;
+					if(ewTimer > 0) 	ewTimer--;
+
                     if(snTimer == 0)
                     {
                         TL_CurrState = TL_SN_YELLOW;
@@ -57,8 +60,8 @@ int main(void)
                     break;
 
                 case TL_SN_YELLOW:
-                    if(snTimer > 0) snTimer--;
-                    ewTimer = 0;
+                    if(snTimer > 0) 	snTimer--;
+                    if(ewTimer > 0) 	ewTimer--;
 					TrafficLight_SN_YellowBlink(); // 每秒闪烁
                     if(snTimer == 0)
                     {
@@ -71,7 +74,10 @@ int main(void)
 
                 case TL_EW_GREEN:
                     if(ewTimer > 0) ewTimer--;
-                    snTimer = 0;
+                    // 红灯方向在绿灯最后2s时开始倒计时
+					if(ewTimer == 3)	snTimer = 7;
+					if(snTimer > 0) 	snTimer--;
+
                     if(ewTimer == 0)
                     {
                         TL_CurrState = TL_EW_YELLOW;
@@ -82,7 +88,7 @@ int main(void)
 
                 case TL_EW_YELLOW:
                     if(ewTimer > 0) ewTimer--;
-                    snTimer = 0;
+                    if(snTimer > 0) 	snTimer--;
 					TrafficLight_EW_YellowBlink(); // 每秒闪烁
                     if(ewTimer == 0)
                     {
@@ -96,6 +102,7 @@ int main(void)
                 default:
                     break;
             }
+
         }
     }
 }
