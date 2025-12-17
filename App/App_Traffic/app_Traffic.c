@@ -6,6 +6,10 @@
  */
 #include "app_Traffic.h"
 
+uint8_t snTimer = 30;
+uint8_t ewTimer = 30;
+uint8_t timerFlag = 0;
+
 /**
  * @brief      设置四向交通灯状态
  * @param      TrafficLightState_t state 待设置的状态
@@ -19,18 +23,23 @@ void TrafficLight_SetState(TrafficLightState state)
     {
         case TL_SN_GREEN:
             TrafficLight_SN_Green();
+            Segment_Display_Number(0, 30); // 南北倒计时 30s，东西清零
             break;
         case TL_SN_YELLOW:
             TrafficLight_SN_Yallow();
+            Segment_Display_Number(0, 5);  // 南北黄灯5s
             break;
         case TL_EW_GREEN:
             TrafficLight_EW_Green();
+            Segment_Display_Number(30, 0); // 东西绿灯倒计时 30s
             break;
         case TL_EW_YELLOW:
             TrafficLight_EW_Yallow();
+            Segment_Display_Number(5, 0);  // 东西黄灯5s
             break;
         case TL_ALL_RED:
             TrafficLight_All_Red();
+            Segment_Display_Number(0, 0);  // 全红清零
             break;
         default:
             break;

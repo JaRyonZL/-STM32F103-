@@ -19,6 +19,10 @@ typedef enum
     TL_ALL_RED     // 全红
 } TrafficLightState;
 
+extern uint8_t snTimer;
+extern uint8_t ewTimer;
+extern uint8_t timerFlag;
+
 void TrafficLight_SetState(TrafficLightState state);
 
 void TrafficLightSeg_Test(void);

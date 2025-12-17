@@ -49,6 +49,8 @@ uint32_t TIM2_GetTick(void)
     return Tick;
 }
 
+extern uint8_t timerFlag;
+
 // TIM2中断处理程序
 void TIM2_IRQHandler(void)
 {
@@ -56,5 +58,11 @@ void TIM2_IRQHandler(void)
 	TIM2->SR &= ~TIM_SR_UIF;
     Tick++;
 
-	TrafficLightSeg_Test();
+    static uint32_t count = 0;
+    count++;
+    if (count >= 111) // 1秒到达
+    {
+        count = 0;timerFlag = 1; 
+    }
+	
 }
