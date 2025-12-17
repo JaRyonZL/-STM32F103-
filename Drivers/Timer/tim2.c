@@ -64,5 +64,5 @@ void TIM2_IRQHandler(void)
     {
         count = 0;timerFlag = 1; 
     }
-	
+
 }

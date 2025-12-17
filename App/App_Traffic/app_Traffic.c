@@ -39,7 +39,10 @@ void TrafficLight_SetState(TrafficLightState state)
             break;
         case TL_ALL_RED:
             TrafficLight_All_Red();
-            Segment_Display_Number(0, 0);  // 全红清零
+            // Segment_Display_Number(0, 0);  // 全红清零
+            Segment_Enable_EW(1);
+            Segment_Enable_SN(1);
+            Segment_Display_Digit(0); // 显示00
             break;
         default:
             break;
