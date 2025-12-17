@@ -25,7 +25,10 @@ extern uint8_t timerFlag;
 extern uint8_t yellowOn;
 extern uint16_t yellowTick;
 
-void TrafficLight_SetState(TrafficLightState state);
+extern TrafficLightState TL_CurrState;
+
+void App_Traffic_Init(void);
+void App_Traffic_Normal(void);
 
 void TrafficLightSeg_Test(void);
 
