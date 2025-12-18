@@ -32,8 +32,6 @@ extern uint8_t snTimer;
 extern uint8_t ewTimer;
 extern uint8_t secFlag;
 extern uint8_t halfFlag;
-extern uint8_t yellowOn;
-extern uint16_t yellowTick;
 
 extern TrafficLightState TL_CurrState;
 extern TrafficMode T_CurrMode;
@@ -48,7 +46,5 @@ void App_Traffic_SingleRed(void);
 void App_Traffic_AllRed(void);
 void App_Traffic_YallowBlink(void);
 void TrafficLight_YellowBlink(void);
-
-void TrafficLightSeg_Test(void);
 
 #endif // !__APP_TRAFFIC_H

@@ -17,14 +17,12 @@
 #define EW_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME+1   // 东西红灯结束前倒计时
 #define SN_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME+1   // 南北红灯结束前倒计时
 
+static uint8_t dirRed = 0;
+
 uint8_t snTimer = 30;
 uint8_t ewTimer = 30;
 uint8_t secFlag = 0;
 uint8_t halfFlag = 0;
-static uint8_t dirRed = 0;
-
-uint8_t yellowOn = 1; // 1=亮，0=灭
-uint16_t yellowTick = 0; // 毫秒计数
 
 TrafficLightState TL_CurrState = TL_ALL_RED;
 TrafficMode T_CurrMode = TRAFFIC_MODE_NORMAL;
@@ -46,7 +44,7 @@ static void TrafficLight_SetState(TrafficLightState state)
             break;
         case TL_SN_YELLOW:
             TrafficLight_SN_Yallow();
-            Segment_Display_Number(0, 3);  // 南北黄灯3s
+            Segment_Display_Number(0, SN_YALLOW_TIME);  // 南北黄灯3s
             break;
         case TL_EW_GREEN:
             TrafficLight_EW_Green();
