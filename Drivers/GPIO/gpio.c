@@ -10,10 +10,10 @@
 
 /**
  * @brief      东西南北向红绿灯控制端口初始化
- * @param       
- * @return     
- * @example    
- * @attention  对向交通灯变化同步   通用推挽 50MHz
+ * @param      void 无 
+ * @return     void
+ * @example    GPIO_TrafficLight_Init();
+ * @attention  对向交通灯变化同步   PA4-PA9通用推挽 50MHz
  */
 void GPIO_TrafficLight_Init(void)
 {
@@ -36,9 +36,9 @@ void GPIO_TrafficLight_Init(void)
 
 /**
  * @brief      四位数码管端口配置(对应南北和东西向倒计时)
- * @param       
- * @return     
- * @example    
+ * @param      void 无 
+ * @return     void  
+ * @example    GPIO_Segment_Init();
  * @attention  PB0-PB7对应a-g和dp，PB8-PB11对应位选
  */
 void GPIO_Segment_Init(void)
@@ -74,9 +74,9 @@ void GPIO_Segment_Init(void)
 
 /**
  * @brief      模式按键端口配置
- * @param       
- * @return     
- * @example    
+ * @param      void 无 
+ * @return     void      
+ * @example    GPIO_ModeKey_Init();
  * @attention  PC0-PC3
  */
 void GPIO_ModeKey_Init(void)
@@ -99,10 +99,11 @@ void GPIO_ModeKey_Init(void)
 
 /**
  * @brief      设置GPIO引脚
- * @param       
- * @return     
- * @example    
- * @attention  
+ * @param      GPIO_TypeDef* GPIOx 待设置的端口名 
+ * @param      uint32_t Pin 待设置的引脚名 
+ * @return     void
+ * @example    GPIO_SetPin(GPIOA, GPIO_ODR_ODR1);
+ * @attention  Pin是GPIO_ODR_ODRx，用于拉高拉低引脚电平的
  */
 void GPIO_SetPin(GPIO_TypeDef* GPIOx, uint32_t Pin)
 {
@@ -111,10 +112,11 @@ void GPIO_SetPin(GPIO_TypeDef* GPIOx, uint32_t Pin)
 
 /**
  * @brief      清除GPIO引脚
- * @param       
- * @return     
- * @example    
- * @attention  
+ * @param      GPIO_TypeDef* GPIOx 待设置的端口名 
+ * @param      uint32_t Pin 待设置的引脚名 
+ * @return     void   
+ * @example    GPIO_ResetPin(GPIOA, GPIO_ODR_ODR1);
+ * @attention  Pin是GPIO_ODR_ODRx，用于拉高拉低引脚电平的
  */
 void GPIO_ResetPin(GPIO_TypeDef* GPIOx, uint32_t Pin)
 {
