@@ -15,8 +15,8 @@
 #define SN_YALLOW_TIME  3   // 南北黄灯过渡时间
 #define EW_GREEN_END_TIME   3   // 东西绿灯结束前提示南北红灯时间
 #define SN_GREEN_END_TIME   3   // 南北绿灯结束前提示东西红灯时间
-#define EW_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME+1   // 东西红灯结束前倒计时
-#define SN_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME+1   // 南北红灯结束前倒计时
+#define EW_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME   // 东西红灯结束前倒计时
+#define SN_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME   // 南北红灯结束前倒计时
 
 static uint8_t dirRed = 0;
 
@@ -129,9 +129,9 @@ void App_Traffic_Normal(void)
     {
         case TL_SN_GREEN:
             if(snTimer > 0) snTimer--;
-            // 红灯方向在绿灯最后7s时开始倒计时
-            if(snTimer == SN_GREEN_END_TIME)	ewTimer = EW_RED_END_TIME;
+            // 红灯方向在绿灯最后6s时开始倒计时
             if(ewTimer > 0) 	ewTimer--;
+            if(snTimer == SN_GREEN_END_TIME)	ewTimer = EW_RED_END_TIME;            
 
             if(snTimer == 0)
             {
@@ -155,9 +155,9 @@ void App_Traffic_Normal(void)
 
         case TL_EW_GREEN:
             if(ewTimer > 0) ewTimer--;
-            // 红灯方向在绿灯最后7s时开始倒计时
-            if(ewTimer == EW_GREEN_END_TIME)	snTimer = SN_RED_END_TIME;
+            // 红灯方向在绿灯最后6s时开始倒计时
             if(snTimer > 0) 	snTimer--;
+            if(ewTimer == EW_GREEN_END_TIME)	snTimer = SN_RED_END_TIME;           
 
             if(ewTimer == 0)
             {
