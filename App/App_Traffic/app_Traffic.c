@@ -7,6 +7,16 @@
 #include "app_Traffic.h"
 #include "tim2.h"
 
+// 倒计时时间定义
+#define EW_GREEN_TIME   30  // 东西绿灯或南北红灯保持时间
+#define SN_GREEN_TIME   30  // 南北绿灯或东西红灯保持时间
+#define EW_YALLOW_TIME  3   // 东西黄灯过渡时间
+#define SN_YALLOW_TIME  3   // 南北黄灯过渡时间
+#define EW_GREEN_END_TIME   3   // 东西绿灯结束前提示南北红灯时间
+#define SN_GREEN_END_TIME   3   // 南北绿灯结束前提示东西红灯时间
+#define EW_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME+1   // 东西红灯结束前倒计时
+#define SN_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME+1   // 南北红灯结束前倒计时
+
 uint8_t snTimer = 30;
 uint8_t ewTimer = 30;
 uint8_t secFlag = 0;
@@ -120,14 +130,14 @@ void App_Traffic_Normal(void)
     {
         case TL_SN_GREEN:
             if(snTimer > 0) snTimer--;
-            // 红灯方向在绿灯最后2s时开始倒计时
-            if(snTimer == 3)	ewTimer = 7;
+            // 红灯方向在绿灯最后7s时开始倒计时
+            if(snTimer == SN_GREEN_END_TIME)	ewTimer = EW_RED_END_TIME;
             if(ewTimer > 0) 	ewTimer--;
 
             if(snTimer == 0)
             {
                 TL_CurrState = TL_SN_YELLOW;
-                snTimer = 3;              // 南北黄灯 3 秒
+                snTimer = SN_YALLOW_TIME;      // 南北黄灯 3 秒
                 TrafficLight_SetState(TL_CurrState);
             }
             break;
@@ -138,7 +148,7 @@ void App_Traffic_Normal(void)
             if(snTimer == 0)
             {
                 TL_CurrState = TL_EW_GREEN;
-                ewTimer = 30;             // 东西绿灯 30 秒
+                ewTimer = EW_GREEN_TIME;     // 东西绿灯 30 秒
                 snTimer = 0;
                 TrafficLight_SetState(TL_CurrState);
             }
@@ -146,25 +156,25 @@ void App_Traffic_Normal(void)
 
         case TL_EW_GREEN:
             if(ewTimer > 0) ewTimer--;
-            // 红灯方向在绿灯最后2s时开始倒计时
-            if(ewTimer == 3)	snTimer = 7;
+            // 红灯方向在绿灯最后7s时开始倒计时
+            if(ewTimer == EW_GREEN_END_TIME)	snTimer = SN_RED_END_TIME;
             if(snTimer > 0) 	snTimer--;
 
             if(ewTimer == 0)
             {
                 TL_CurrState = TL_EW_YELLOW;
-                ewTimer = 3;              // 东西黄灯 3 秒
+                ewTimer = EW_YALLOW_TIME;       // 东西黄灯 3 秒
                 TrafficLight_SetState(TL_CurrState);
             }
             break;
 
         case TL_EW_YELLOW:
-            if(ewTimer > 0) ewTimer--;
+            if(ewTimer > 0)     ewTimer--;
             if(snTimer > 0) 	snTimer--;
             if(ewTimer == 0)
             {
                 TL_CurrState = TL_SN_GREEN;
-                snTimer = 30;
+                snTimer = SN_GREEN_TIME;
                 ewTimer = 0;
                 TrafficLight_SetState(TL_CurrState);
             }
