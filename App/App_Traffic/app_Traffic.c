@@ -15,6 +15,7 @@ uint8_t yellowOn = 1; // 1=亮，0=灭
 uint16_t yellowTick = 0; // 毫秒计数
 
 TrafficLightState TL_CurrState = TL_ALL_RED;
+TrafficMode T_CurrMode = TRAFFIC_MODE_NORMAL;
 
 /**
  * @brief      设置四向交通灯状态
@@ -84,74 +85,139 @@ void App_Traffic_Init(void)
 // 正常模式
 void App_Traffic_Normal(void)
 {
-    // 动态刷新数码管
-    Segment_Display_Number(ewTimer, snTimer);
-
-    // 1秒定时器触发倒计时
-    if(timerFlag)
+    switch(TL_CurrState)
     {
-        timerFlag = 0;
+        case TL_SN_GREEN:
+            if(snTimer > 0) snTimer--;
+            // 红灯方向在绿灯最后2s时开始倒计时
+            if(snTimer == 3)	ewTimer = 7;
+            if(ewTimer > 0) 	ewTimer--;
 
-        switch(TL_CurrState)
-        {
-            case TL_SN_GREEN:
-                if(snTimer > 0) snTimer--;
-                // 红灯方向在绿灯最后2s时开始倒计时
-                if(snTimer == 3)	ewTimer = 7;
-                if(ewTimer > 0) 	ewTimer--;
+            if(snTimer == 0)
+            {
+                TL_CurrState = TL_SN_YELLOW;
+                snTimer = 3;              // 南北黄灯 3 秒
+                TrafficLight_SetState(TL_CurrState);
+            }
+            break;
 
-                if(snTimer == 0)
-                {
-                    TL_CurrState = TL_SN_YELLOW;
-                    snTimer = 3;              // 南北黄灯 3 秒
-                    TrafficLight_SetState(TL_CurrState);
-                }
-                break;
+        case TL_SN_YELLOW:
+            if(snTimer > 0) 	snTimer--;
+            if(ewTimer > 0) 	ewTimer--;
+            if(snTimer == 0)
+            {
+                TL_CurrState = TL_EW_GREEN;
+                ewTimer = 30;             // 东西绿灯 30 秒
+                snTimer = 0;
+                TrafficLight_SetState(TL_CurrState);
+            }
+            break;
 
-            case TL_SN_YELLOW:
-                if(snTimer > 0) 	snTimer--;
-                if(ewTimer > 0) 	ewTimer--;
-                if(snTimer == 0)
-                {
-                    TL_CurrState = TL_EW_GREEN;
-                    ewTimer = 30;             // 东西绿灯 30 秒
-                    snTimer = 0;
-                    TrafficLight_SetState(TL_CurrState);
-                }
-                break;
+        case TL_EW_GREEN:
+            if(ewTimer > 0) ewTimer--;
+            // 红灯方向在绿灯最后2s时开始倒计时
+            if(ewTimer == 3)	snTimer = 7;
+            if(snTimer > 0) 	snTimer--;
 
-            case TL_EW_GREEN:
-                if(ewTimer > 0) ewTimer--;
-                // 红灯方向在绿灯最后2s时开始倒计时
-                if(ewTimer == 3)	snTimer = 7;
-                if(snTimer > 0) 	snTimer--;
+            if(ewTimer == 0)
+            {
+                TL_CurrState = TL_EW_YELLOW;
+                ewTimer = 3;              // 东西黄灯 3 秒
+                TrafficLight_SetState(TL_CurrState);
+            }
+            break;
 
-                if(ewTimer == 0)
-                {
-                    TL_CurrState = TL_EW_YELLOW;
-                    ewTimer = 3;              // 东西黄灯 3 秒
-                    TrafficLight_SetState(TL_CurrState);
-                }
-                break;
+        case TL_EW_YELLOW:
+            if(ewTimer > 0) ewTimer--;
+            if(snTimer > 0) 	snTimer--;
+            if(ewTimer == 0)
+            {
+                TL_CurrState = TL_SN_GREEN;
+                snTimer = 30;
+                ewTimer = 0;
+                TrafficLight_SetState(TL_CurrState);
+            }
+            break;
 
-            case TL_EW_YELLOW:
-                if(ewTimer > 0) ewTimer--;
-                if(snTimer > 0) 	snTimer--;
-                if(ewTimer == 0)
-                {
-                    TL_CurrState = TL_SN_GREEN;
-                    snTimer = 30;
-                    ewTimer = 0;
-                    TrafficLight_SetState(TL_CurrState);
-                }
-                break;
-
-            default:
-                break;
-        }
-
+        default:
+            break;
     }
 }
+
+/**
+ * @brief      交通灯全红模式
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void App_Traffic_AllRed(void)
+{
+    TrafficLight_All_Red();
+    snTimer = 0;
+    ewTimer = 0;
+}
+
+/**
+ * @brief      交通灯夜间黄闪模式
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void App_Traffic_YallowBlink(void)
+{
+    // 四向黄灯闪烁
+    TrafficLight_SN_YellowBlink();
+    TrafficLight_EW_YellowBlink();
+    // 倒计时清零
+    snTimer = 0;
+    ewTimer = 0;
+}
+
+/**
+ * @brief      交通灯模式切换控制
+ * @param      KEY_NUM key 传入的按键键码 
+ * @return     
+ * @example    
+ * @attention  
+ */
+void App_TrafficMode_Switch(KEY_NUM key)
+{
+    switch (key)
+    {
+        case KEY1:T_CurrMode = TRAFFIC_MODE_NORMAL;         break;
+        case KEY2:T_CurrMode = TRAFFIC_MODE_ALL_RED;        break;
+        case KEY3:T_CurrMode = TRAFFIC_MODE_YELLOW_BLINK;   break;
+        case KEY4:T_CurrMode = TRAFFIC_MODE_MANUAL;         break;
+
+        default:break;
+    }
+}
+
+/**
+ * @brief      交通灯执行控制中心，调度运行
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void App_Traffic_ModeRun(void)
+{
+    switch (T_CurrMode)
+    {
+        case TRAFFIC_MODE_NORMAL:       App_Traffic_Normal();       break;
+        case TRAFFIC_MODE_ALL_RED:      App_Traffic_AllRed();       break;
+        case TRAFFIC_MODE_YELLOW_BLINK: App_Traffic_YallowBlink();  break;
+
+        case TRAFFIC_MODE_MANUAL:
+            /* 不自动切换 */
+            break;
+
+        default:break;
+    }
+}
+
 
 // 由于proteus8.17中仿真时使用8MHz不会卡顿，所以实际1ms需要改成1/9ms
 // 因此count计数也相应变为原来的1/9 即5s即5000变成5000/9约555 1s

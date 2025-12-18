@@ -19,9 +19,25 @@ int main(void)
 	Key_Init();			 // 按键初始化
 	// 交通灯初始化
 	App_Traffic_Init();
-	
+
 	while (1)
 	{
-		App_Traffic_Normal();
+		// 获取按键键码
+		KEY_NUM keyNum = Key_GetNum();
+		// 模式控制-按键被按下时根据键码调整
+		if(keyNum != NO_PRESSED)
+		{
+			App_TrafficMode_Switch(keyNum);
+		}
+		// 动态刷新数码管倒计时
+		Segment_Display_Number(ewTimer, snTimer);
+		// 1s定时处理
+		if(timerFlag == 1)
+		{
+			timerFlag = 0;
+			// "总指挥"-交通灯执行
+			App_Traffic_ModeRun();
+		}
+		
 	}
 }
