@@ -116,6 +116,37 @@ void TrafficLight_EW_Yallow(void)
 }
 
 /**
+ * @brief      仅南北向红灯
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void Traffic_SN_RED(void)
+{
+    // 关闭交通灯
+    TrafficLight_AllOff();  
+    // 南北向红灯
+    LED_ON(SN_PORT, SN_RED_PIN);  
+}   
+
+/**
+ * @brief      仅东西向红灯
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void Traffic_EW_RED(void)
+{
+    // 关闭交通灯
+    TrafficLight_AllOff();  
+    // 南北向红灯
+    LED_ON(EW_PORT, EW_RED_PIN);  
+}   
+
+
+/**
  * @brief      交通灯全部红灯
  * @param       
  * @return     

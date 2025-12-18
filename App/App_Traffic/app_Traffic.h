@@ -24,7 +24,7 @@ typedef enum
     TRAFFIC_MODE_NORMAL = 0,   // 正常自动
     TRAFFIC_MODE_ALL_RED,      // 全红
     TRAFFIC_MODE_YELLOW_BLINK, // 黄闪
-    TRAFFIC_MODE_MANUAL        // 手动
+    TRAFFIC_MODE_SINGLE_RED    // 南北/东西禁止
 } TrafficMode;
 
 
@@ -44,6 +44,7 @@ void App_Taffic_Tick(void);
 void App_Traffic_Normal(void);
 void App_TrafficMode_Switch(KEY_NUM key);
 void App_Traffic_ModeRun(void);
+void App_Traffic_SingleRed(void);
 void App_Traffic_AllRed(void);
 void App_Traffic_YallowBlink(void);
 void TrafficLight_YellowBlink(void);

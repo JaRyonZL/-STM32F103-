@@ -11,6 +11,7 @@ uint8_t snTimer = 30;
 uint8_t ewTimer = 30;
 uint8_t secFlag = 0;
 uint8_t halfFlag = 0;
+static uint8_t dirRed = 0;
 
 uint8_t yellowOn = 1; // 1=亮，0=灭
 uint16_t yellowTick = 0; // 毫秒计数
@@ -211,6 +212,26 @@ void App_Traffic_YallowBlink(void)
 }
 
 /**
+ * @brief      南北/东西一方禁止通行
+ * @param       
+ * @return     
+ * @example    
+ * @attention  按键控制方向变化
+ */
+void App_Traffic_SingleRed(void)
+{
+    if(secFlag != 1)  return;
+    else if(secFlag == 1) secFlag = 0;
+
+    if(dirRed == 0) Traffic_SN_RED();
+    else            Traffic_EW_RED();
+    
+    snTimer = 0;
+    ewTimer = 0;    
+}
+
+
+/**
  * @brief      交通灯模式切换控制
  * @param      KEY_NUM key 传入的按键键码 
  * @return     
@@ -219,15 +240,28 @@ void App_Traffic_YallowBlink(void)
  */
 void App_TrafficMode_Switch(KEY_NUM key)
 {
+    // 由其他模式切换至常规模式时，需重置交通灯参数(上次按键为0或1无需重置)
+    // 避免倒计时清零导致的红绿灯状态突变
+    static KEY_NUM prevKey = NO_PRESSED;
+
+    if(key == KEY1 && prevKey != KEY1 && prevKey != NO_PRESSED)
+    {
+        TL_CurrState = TL_SN_GREEN;
+        snTimer = 30;
+        ewTimer = 0;
+        TrafficLight_SetState(TL_CurrState);  
+    }
+
     switch (key)
     {
         case KEY1:T_CurrMode = TRAFFIC_MODE_NORMAL;         break;
         case KEY2:T_CurrMode = TRAFFIC_MODE_ALL_RED;        break;
         case KEY3:T_CurrMode = TRAFFIC_MODE_YELLOW_BLINK;   break;
-        case KEY4:T_CurrMode = TRAFFIC_MODE_MANUAL;         break;
+        case KEY4:T_CurrMode = TRAFFIC_MODE_SINGLE_RED; dirRed=~dirRed;break;
 
         default:break;
     }
+    prevKey = key; // 记录上一次按下的按键键码
 }
 
 /**
@@ -244,10 +278,7 @@ void App_Traffic_ModeRun(void)
         case TRAFFIC_MODE_NORMAL:       App_Traffic_Normal();       break;
         case TRAFFIC_MODE_ALL_RED:      App_Traffic_AllRed();       break;
         case TRAFFIC_MODE_YELLOW_BLINK: App_Traffic_YallowBlink();  break;
-
-        case TRAFFIC_MODE_MANUAL:
-            /* 不自动切换 */
-            break;
+        case TRAFFIC_MODE_SINGLE_RED:   App_Traffic_SingleRed();    break;
 
         default:break;
     }
