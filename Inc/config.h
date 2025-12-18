@@ -9,6 +9,11 @@
 
 #include "stm32f10x.h"
 
+// proteus8.17仿真与实际时间不符，特定时间近似映射定义 ms-s
+#define ONESEC_TIME     100
+#define HALFSEC_TIME    50
+#define KEYSCAN_TIME    2
+
 // 红绿灯控制引脚定义
 #define SN_PORT             GPIOA           // 南北向交通灯端口
 #define EW_PORT             GPIOA           // 东西向交通灯端口

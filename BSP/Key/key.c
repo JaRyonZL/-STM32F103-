@@ -81,7 +81,7 @@ void Key_Tick(void)
 
     keyScan_Tick++;
 
-    if (keyScan_Tick >= 2) // 每20ms扫描一次按键状态
+    if (keyScan_Tick >= KEYSCAN_TIME) // 每20ms扫描一次按键状态
     {
         keyScan_Tick = 0;
 

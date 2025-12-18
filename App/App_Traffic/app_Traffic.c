@@ -5,6 +5,7 @@
  * @Date: 2025-12-17 15:55:59
  */
 #include "app_Traffic.h"
+#include "config.h"
 #include "tim2.h"
 
 // 倒计时时间定义
@@ -80,12 +81,12 @@ void App_Taffic_Tick(void)
     count1++;
     count2++;
 
-    if (count1 == 50) // 0.5秒到达
+    if (count1 == HALFSEC_TIME) // 0.5秒到达
     {
         count1 = 0;
         halfFlag = 1; 
     }
-    if(count2 == 100) // 1s到达
+    if(count2 == ONESEC_TIME) // 1s到达
     {
         count2 = 0;
         secFlag = 1;
@@ -110,7 +111,7 @@ void App_Traffic_Init(void)
 
     // 延时1秒显示全红，然后切换到南北绿
     uint32_t delayCount = TIM2_GetTick();
-	while(TIM2_GetTick() - delayCount < 100 * 2) // 2秒延时
+	while(TIM2_GetTick() - delayCount < ONESEC_TIME * 2) // 2秒延时
 	{}
     TL_CurrState = TL_SN_GREEN;
     snTimer = SN_GREEN_TIME;
