@@ -111,7 +111,6 @@ void App_Traffic_Normal(void)
             case TL_SN_YELLOW:
                 if(snTimer > 0) 	snTimer--;
                 if(ewTimer > 0) 	ewTimer--;
-                TrafficLight_SN_YellowBlink(); // 每秒闪烁
                 if(snTimer == 0)
                 {
                     TL_CurrState = TL_EW_GREEN;
@@ -138,7 +137,6 @@ void App_Traffic_Normal(void)
             case TL_EW_YELLOW:
                 if(ewTimer > 0) ewTimer--;
                 if(snTimer > 0) 	snTimer--;
-                TrafficLight_EW_YellowBlink(); // 每秒闪烁
                 if(ewTimer == 0)
                 {
                     TL_CurrState = TL_SN_GREEN;
