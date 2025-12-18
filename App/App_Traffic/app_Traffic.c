@@ -85,6 +85,9 @@ void App_Traffic_Init(void)
 // 正常模式
 void App_Traffic_Normal(void)
 {
+    if(timerFlag != 2)  return;
+    else if(timerFlag == 2) timerFlag = 0;
+
     switch(TL_CurrState)
     {
         case TL_SN_GREEN:
@@ -153,6 +156,9 @@ void App_Traffic_Normal(void)
  */
 void App_Traffic_AllRed(void)
 {
+    if(timerFlag != 2)  return;
+    else if(timerFlag == 2) timerFlag = 0;
+
     TrafficLight_All_Red();
     snTimer = 0;
     ewTimer = 0;
@@ -167,6 +173,9 @@ void App_Traffic_AllRed(void)
  */
 void App_Traffic_YallowBlink(void)
 {
+    if(timerFlag != 1)  return;
+    else if(timerFlag == 1) timerFlag = 0;
+
     // 四向黄灯闪烁
     TrafficLight_YellowBlink();
     // 倒计时清零

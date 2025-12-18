@@ -32,12 +32,8 @@ int main(void)
 		// 动态刷新数码管倒计时
 		Segment_Display_Number(ewTimer, snTimer);
 		// 1s定时处理
-		if(timerFlag == 1)
-		{
-			timerFlag = 0;
-			// "总指挥"-交通灯执行
-			App_Traffic_ModeRun();
-		}
-		
+
+		// "总指挥"-交通灯执行
+		App_Traffic_ModeRun();
 	}
 }
