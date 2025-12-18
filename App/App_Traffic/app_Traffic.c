@@ -42,7 +42,7 @@ static void TrafficLight_SetState(TrafficLightState state)
     {
         case TL_SN_GREEN:
             TrafficLight_SN_Green();
-            Segment_Display_Number(0, 30); // 南北倒计时 30s，东西清零
+            Segment_Display_Number(0, SN_GREEN_TIME); // 南北倒计时 30s，东西清零
             break;
         case TL_SN_YELLOW:
             TrafficLight_SN_Yallow();
@@ -50,11 +50,11 @@ static void TrafficLight_SetState(TrafficLightState state)
             break;
         case TL_EW_GREEN:
             TrafficLight_EW_Green();
-            Segment_Display_Number(30, 0); // 东西绿灯倒计时 30s
+            Segment_Display_Number(EW_GREEN_TIME, 0); // 东西绿灯倒计时 30s
             break;
         case TL_EW_YELLOW:
             TrafficLight_EW_Yallow();
-            Segment_Display_Number(3, 0);  // 东西黄灯3s
+            Segment_Display_Number(EW_YALLOW_TIME, 0);  // 东西黄灯3s
             break;
         case TL_ALL_RED:
             TrafficLight_All_Red();
@@ -115,7 +115,7 @@ void App_Traffic_Init(void)
 	while(TIM2_GetTick() - delayCount < 100 * 2) // 2秒延时
 	{}
     TL_CurrState = TL_SN_GREEN;
-    snTimer = 30;
+    snTimer = SN_GREEN_TIME;
     ewTimer = 0;
     TrafficLight_SetState(TL_CurrState);   
 }
@@ -257,7 +257,7 @@ void App_TrafficMode_Switch(KEY_NUM key)
     if(key == KEY1 && prevKey != KEY1 && prevKey != NO_PRESSED)
     {
         TL_CurrState = TL_SN_GREEN;
-        snTimer = 30;
+        snTimer = SN_GREEN_TIME;;
         ewTimer = 0;
         TrafficLight_SetState(TL_CurrState);  
     }
@@ -305,59 +305,3 @@ void App_Traffic_ModeRun(void)
  * 1000 -> 111
  * 
  */
-void TrafficLightSeg_Test(void)
-{
-	static uint32_t count = 0;
-	count++;
-
-	if (count <= 556)
-	{
-		// 南北向绿灯亮
-		TrafficLight_SN_Green();
-	}
-	else if (count <= 778)
-	{
-		// 南北向黄灯亮
-		TrafficLight_SN_Yallow();
-	}
-	else if (count <= 1334)
-	{
-		// 东西向绿灯亮
-		TrafficLight_EW_Green();
-	}
-	else if (count <= 1556)
-	{
-		// 东西向黄灯亮
-		TrafficLight_EW_Yallow();
-	}
-	else
-	{
-		count = 0;
-	}
-
-	// 数码管显示倒计时
-	uint8_t snTime = 0;
-	uint8_t ewTime = 0;
-	if(count <= 556)
-	{
-		snTime = (778 - count) / 111;
-		ewTime = 0;
-	}
-	else if(count <= 778)
-	{
-		snTime = (778 - count) / 111;
-		ewTime = 0;
-	}
-	else if(count <= 1334)
-	{
-		snTime = 0;
-		ewTime = (1556 - count) / 111;
-	}
-	else if(count <= 1556)
-	{
-		snTime = 0;
-		ewTime = (1556 - count) / 111;
-	}
-	Segment_Display_Number(ewTime, snTime);
-
-}
