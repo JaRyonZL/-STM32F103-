@@ -1,22 +1,23 @@
 /*
- * @Descripttion:
+ * @Descripttion: 交通灯LED控制文件(.c)
  * @Author: JaRyon
- * @version:
+ * @version: v1.0
  * @Date: 2025-12-16 15:23:07
  */
 #include "trafficLed.h"
 #include "config.h"
 
+// 交通灯开关宏定义
 #define LED_ON(GPIO_PORT, GPIO_PIN)   GPIO_ResetPin(GPIO_PORT, GPIO_PIN)
 #define LED_OFF(GPIO_PORT, GPIO_PIN)  GPIO_SetPin(GPIO_PORT, GPIO_PIN)
 
 
 /**
  * @brief      关闭所有交通灯
- * @param      
- * @return     
- * @example    
- * @attention  
+ * @param      void 无
+ * @return     void
+ * @example    TrafficLight_AllOff();
+ * @attention  内部调用
  */
 static void TrafficLight_AllOff(void)
 {
@@ -32,9 +33,9 @@ static void TrafficLight_AllOff(void)
 
 /**
  * @brief      南北东西向交通灯初始化
- * @param
- * @return
- * @example
+ * @param      void 无
+ * @return     void
+ * @example    TrafficLight_Init(); 
  * @attention
  */
 void TrafficLight_Init(void)
@@ -47,9 +48,9 @@ void TrafficLight_Init(void)
 
 /**
  * @brief      南北向绿灯
- * @param
- * @return
- * @example
+ * @param      void 无
+ * @return     void
+ * @example    TrafficLight_SN_Green();
  * @attention
  */
 void TrafficLight_SN_Green(void)
@@ -63,9 +64,9 @@ void TrafficLight_SN_Green(void)
 
 /**
  * @brief      南北向黄灯
- * @param
- * @return
- * @example
+ * @param      void 无
+ * @return     void
+ * @example    TrafficLight_SN_Yallow();
  * @attention
  */
 void TrafficLight_SN_Yallow(void)
@@ -79,9 +80,9 @@ void TrafficLight_SN_Yallow(void)
 
 /**
  * @brief      东西向绿灯
- * @param
- * @return
- * @example
+ * @param      void 无
+ * @return     void
+ * @example    TrafficLight_EW_Green();
  * @attention
  */
 void TrafficLight_EW_Green(void)
@@ -95,9 +96,9 @@ void TrafficLight_EW_Green(void)
 
 /**
  * @brief      东西向黄灯
- * @param
- * @return
- * @example
+ * @param      void 无
+ * @return     void
+ * @example    TrafficLight_EW_Yallow();
  * @attention
  */
 void TrafficLight_EW_Yallow(void)
@@ -111,9 +112,9 @@ void TrafficLight_EW_Yallow(void)
 
 /**
  * @brief      仅南北向红灯
- * @param       
- * @return     
- * @example    
+ * @param      void 无
+ * @return     void   
+ * @example    Traffic_SN_RED();
  * @attention  
  */
 void Traffic_SN_RED(void)
@@ -127,9 +128,9 @@ void Traffic_SN_RED(void)
 
 /**
  * @brief      仅东西向红灯
- * @param       
- * @return     
- * @example    
+ * @param      void 无
+ * @return     void  
+ * @example    Traffic_EW_RED();
  * @attention  
  */
 void Traffic_EW_RED(void)
@@ -143,9 +144,9 @@ void Traffic_EW_RED(void)
 
 /**
  * @brief      交通灯全部红灯
- * @param       
- * @return     
- * @example    
+ * @param      void 无
+ * @return     void   
+ * @example    TrafficLight_All_Red();
  * @attention  
  */
 void TrafficLight_All_Red(void)
@@ -159,11 +160,11 @@ void TrafficLight_All_Red(void)
 
 
 /**
- * @brief      四向向黄灯闪烁,夜间黄闪
- * @param       
- * @return     
- * @example    
- * @attention  
+ * @brief      四向向黄灯闪烁
+ * @param      void 无
+ * @return     void  
+ * @example    TrafficLight_YellowBlink();
+ * @attention  用于夜间黄闪
  */
 void TrafficLight_YellowBlink(void)
 {

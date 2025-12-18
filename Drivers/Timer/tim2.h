@@ -1,7 +1,7 @@
 /*
- * @Descripttion: 
+ * @Descripttion: TIM2定时器配置文件(.h)
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-12-16 21:00:42
  */
 #ifndef __TIM2_H

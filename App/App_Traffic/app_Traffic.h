@@ -1,7 +1,7 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 交通层用户设置文件(.c)
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-12-17 15:56:11
  */
 #ifndef __APP_TRAFFIC_H

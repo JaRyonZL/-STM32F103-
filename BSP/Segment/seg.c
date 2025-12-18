@@ -1,7 +1,7 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 数码管控制文件(.c)
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-12-16 17:02:55
  */
 #include "seg.h"
@@ -24,9 +24,9 @@ const static uint8_t segment_digit_map[10] = {
 
 /**
  * @brief      四向数码管初始化
- * @param       
- * @return     
- * @example    
+ * @param      void 无
+ * @return     void
+ * @example    Segment_Init();
  * @attention  东西向与南北向同步，因此本质只有四位数码管
  */
 void Segment_Init(void)
@@ -51,9 +51,9 @@ void Segment_Init(void)
 
 /**
  * @brief      开启南北向两位数码管 1-开启 0-关闭
- * @param       
- * @return     
- * @example    
+ * @param      uint8_t state 待设置的南北数码管状态
+ * @return     void
+ * @example    Segment_Enable_SN(1);
  * @attention  对应三四位数码管
  */
 void Segment_Enable_SN(uint8_t state)
@@ -72,9 +72,9 @@ void Segment_Enable_SN(uint8_t state)
 
 /**
  * @brief      开启东西向两位数码管 1-开启 0-关闭
- * @param       
- * @return     
- * @example    
+ * @param      uint8_t state 待设置的东西数码管状态
+ * @return     void
+ * @example    Segment_Enable_EW(1); 
  * @attention  对应一二位数码管
  */
 void Segment_Enable_EW(uint8_t state)
@@ -93,9 +93,9 @@ void Segment_Enable_EW(uint8_t state)
 
 /**
  * @brief      关闭全部数码管，即清除位选
- * @param       
- * @return     
- * @example    
+ * @param      void 无
+ * @return     void  
+ * @example    Segment_Disable();
  * @attention  将四位数码管的位选均拉低即关闭
  */
 void Segment_Disable(void)
@@ -108,9 +108,9 @@ void Segment_Disable(void)
 
 /**
  * @brief      关闭数码管全部段选脚
- * @param       
- * @return     
- * @example    
+ * @param      void 无
+ * @return     void 
+ * @example    Segment_Clear();
  * @attention  数码管（共阳极），关闭段选即a-g、dp全部拉高
  */
 void Segment_Clear(void)
@@ -120,10 +120,10 @@ void Segment_Clear(void)
 
 /**
  * @brief      设置一位数码管段码
- * @param       
- * @return     
- * @example    
- * @attention  内部调用
+ * @param      uint8_t seg_code 待设置的段码值 
+ * @return     void
+ * @example    Segment_SetSegmentCode
+ * @attention  内部调用 寄存器操作(先清零再赋值)
  */
 static void Segment_SetSegmentCode(uint8_t seg_code)
 {
@@ -134,8 +134,8 @@ static void Segment_SetSegmentCode(uint8_t seg_code)
 /**
  * @brief      一位数码管显示数字0-9
  * @param      uint8_t num 待显示的数字
- * @return     
- * @example    
+ * @return     void
+ * @example    Segment_Display_Digit(9);
  * @attention  
  */
 void Segment_Display_Digit(uint8_t num)
@@ -146,6 +146,7 @@ void Segment_Display_Digit(uint8_t num)
     Segment_SetSegmentCode(seg_code);
 }
 
+// 数码管显示保持延时函数
 void SEG_DelayMs(uint16_t time)
 {
 	uint16_t i,j;
@@ -157,8 +158,8 @@ void SEG_DelayMs(uint16_t time)
  * @brief      显示数字0-99在对应数码管上
  * @param      uint8_t sn_num 南北向数字
  * @param      uint8_t ew_num 东西向数字
- * @return     
- * @example    
+ * @return     void
+ * @example    Segment_Display_Number(0, 0);
  * @attention  动态扫描显示
  */
 void Segment_Display_Number(uint8_t ewNum, uint8_t snNum)

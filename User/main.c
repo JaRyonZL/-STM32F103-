@@ -1,7 +1,7 @@
 /*
- * @Descripttion:
+ * @Descripttion: 交通灯控制系统主程序文件
  * @Author: JaRyon
- * @version:
+ * @version: v1.0
  * @Date: 2025-12-16 12:55:42
  */
 #include "stm32f10x.h"
@@ -21,7 +21,6 @@ int main(void)
 
 	while (1)
 	{
-		// 获取按键键码
 		KEY_NUM keyNum = Key_GetNum();
 		// 模式控制-按键被按下时根据键码调整
 		if (keyNum != NO_PRESSED)

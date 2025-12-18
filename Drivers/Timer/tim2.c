@@ -1,20 +1,21 @@
 /*
- * @Descripttion: 
+ * @Descripttion: TIM2定时器配置文件(.c)
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-12-16 21:00:34
  */
 #include "tim2.h"
 #include "app_Traffic.h"
 #include "key.h"
 
+// TIM2进行1ms中断，记录计数次数 内部使用
 static uint32_t Tick = 0;
 
 /**
  * @brief      TIM2初始化
- * @param       
- * @return     
- * @example    
+ * @param      void 无 
+ * @return     void
+ * @example    TIM2_Init();
  * @attention  
  */
 void TIM2_Init(void)
@@ -40,9 +41,9 @@ void TIM2_Init(void)
 
 /**
  * @brief      获取Tick数
- * @param       
- * @return     
- * @example    
+ * @param      void 无 
+ * @return     uint32_t 获取的滴答次数
+ * @example    uint32_t TIM2_GetTick();
  * @attention  
  */
 uint32_t TIM2_GetTick(void)

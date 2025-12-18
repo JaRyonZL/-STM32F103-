@@ -1,7 +1,7 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 按键驱动文件.c
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-11-20 20:12:47
  */
 #ifndef __KEY_H

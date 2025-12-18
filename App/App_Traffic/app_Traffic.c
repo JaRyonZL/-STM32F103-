@@ -1,7 +1,7 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 交通层用户设置文件(.c)
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-12-17 15:55:59
  */
 #include "app_Traffic.h"

@@ -1,7 +1,7 @@
 /*
- * @Descripttion: GPIO配置文件
+ * @Descripttion: GPIO配置文件(.c)
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-12-16 14:24:17
  */
 #include "gpio.h"

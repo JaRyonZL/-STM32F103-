@@ -1,7 +1,7 @@
 /*
  * @Descripttion: 按键驱动文件.c
  * @Author: JaRyon
- * @version:
+ * @version: v1.0
  * @Date: 2025-11-20 20:12:47
  */
 #include "key.h"
@@ -12,14 +12,14 @@
 #define MODE_KEY3_READ  ((MODE_KEY_PORT->IDR & MODE_KEY3_PIN_R) ? 1 : 0)
 #define MODE_KEY4_READ  ((MODE_KEY_PORT->IDR & MODE_KEY4_PIN_R) ? 1 : 0)
 
-// 按键键码
+// 按键键码 默认未按下(0)
 static KEY_NUM KeyNum = NO_PRESSED;
 
 /**
  * @brief      模式按键初始化
- * @param       
- * @return     
- * @example    
+ * @param      void 无 
+ * @return     void
+ * @example    Key_Init();
  * @attention  
  */
 void Key_Init(void)
@@ -58,6 +58,7 @@ static KEY_NUM Key_GetState(void)
 }
 
 // 获取按键键码
+// 返回值: 键码
 KEY_NUM Key_GetNum(void)
 {
     KEY_NUM temp;
@@ -72,7 +73,7 @@ KEY_NUM Key_GetNum(void)
     return NO_PRESSED;
 }
 
-// 每秒扫描按键
+// 定时扫描按键
 void Key_Tick(void)
 {
     static uint32_t keyScan_Tick = 0;

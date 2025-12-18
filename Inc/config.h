@@ -1,7 +1,7 @@
 /*
- * @Descripttion: 
+ * @Descripttion: 用户配置文件(.h)
  * @Author: JaRyon
- * @version: 
+ * @version: v1.0
  * @Date: 2025-12-16 15:29:26
  */
 #ifndef __CONFIG_H
