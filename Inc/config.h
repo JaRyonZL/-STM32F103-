@@ -21,9 +21,9 @@
  */
 
 // proteus8.17仿真与实际时间不符，特定时间近似映射定义 ms-s
-#define ONESEC_TIME     100
-#define HALFSEC_TIME    50
-#define KEYSCAN_TIME    2
+#define ONESEC_TIME     100  // 1s
+#define HALFSEC_TIME    50   // 0.5s
+#define KEYSCAN_TIME    2    // 20ms
 
 // 红绿灯控制引脚定义
 #define SN_PORT             GPIOA           // 南北向交通灯端口
