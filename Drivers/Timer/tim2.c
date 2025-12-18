@@ -58,7 +58,7 @@ void TIM2_IRQHandler(void)
 	TIM2->SR &= ~TIM_SR_UIF;
     Tick++;
 
-    App_Taffic_Tick(); // 交通灯时控
+    App_Traffic_Tick(); // 交通灯时控
     Key_Tick(); // 按键处理
 
 }

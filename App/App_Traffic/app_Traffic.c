@@ -18,22 +18,26 @@
 #define EW_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME   // 东西红灯结束前倒计时
 #define SN_RED_END_TIME EW_YALLOW_TIME+EW_GREEN_END_TIME   // 南北红灯结束前倒计时
 
+// 单向通行模式切换标志
 static uint8_t dirRed = 0;
 
+/* 东西/南北计时器 */
 uint8_t snTimer = 30;
 uint8_t ewTimer = 30;
-uint8_t secFlag = 0;
-uint8_t halfFlag = 0;
 
+uint8_t secFlag = 0;      // 1s标志
+uint8_t halfFlag = 0;     // 半秒标志
+
+/* 状态 模式 */
 TrafficLightState TL_CurrState = TL_ALL_RED;
 TrafficMode T_CurrMode = TRAFFIC_MODE_NORMAL;
 
 /**
  * @brief      设置四向交通灯状态
- * @param      TrafficLightState_t state 待设置的状态
- * @return     
- * @example    
- * @attention  
+ * @param      TrafficLightState_t state 待设置的交通灯状态
+ * @return     无
+ * @example    TrafficLight_SetState(TL_SN_GREEN);
+ * @attention  内部调用
  */
 static void TrafficLight_SetState(TrafficLightState state)
 {
@@ -69,12 +73,12 @@ static void TrafficLight_SetState(TrafficLightState state)
 
 /**
  * @brief      交通灯控制触发计时器
- * @param       
- * @return     
- * @example    
- * @attention  
+ * @param      void 无
+ * @return     void
+ * @example    App_Traffic_Tick();
+ * @attention  1ms定时调用
  */
-void App_Taffic_Tick(void)
+void App_Traffic_Tick(void)
 {
     static uint32_t count1 = 0;
     static uint32_t count2 = 0;
@@ -94,10 +98,10 @@ void App_Taffic_Tick(void)
 }
 
 /**
- * @brief      交通灯初始化
- * @param       
- * @return     
- * @example    
+ * @brief      交通灯状态初始化
+ * @param      void 无
+ * @return     void
+ * @example    App_Traffic_Init();
  * @attention  
  */
 void App_Traffic_Init(void)
@@ -119,12 +123,19 @@ void App_Traffic_Init(void)
     TrafficLight_SetState(TL_CurrState);   
 }
 
-// 正常模式
-void App_Traffic_Normal(void)
+/**
+ * @brief      常规模式下的红绿灯控制
+ * @param      void 无
+ * @return     void
+ * @example    App_Traffic_Normal();
+ * @attention  内部调用
+ */
+static void App_Traffic_Normal(void)
 {
+    // 调用控制 1s
     if(secFlag != 1)  return;
     else if(secFlag == 1) secFlag = 0;
-
+    // 状态机控制
     switch(TL_CurrState)
     {
         case TL_SN_GREEN:
@@ -140,7 +151,6 @@ void App_Traffic_Normal(void)
                 TrafficLight_SetState(TL_CurrState);
             }
             break;
-
         case TL_SN_YELLOW:
             if(snTimer > 0) 	snTimer--;
             if(ewTimer > 0) 	ewTimer--;
@@ -152,7 +162,6 @@ void App_Traffic_Normal(void)
                 TrafficLight_SetState(TL_CurrState);
             }
             break;
-
         case TL_EW_GREEN:
             if(ewTimer > 0) ewTimer--;
             // 红灯方向在绿灯最后6s时开始倒计时
@@ -166,7 +175,6 @@ void App_Traffic_Normal(void)
                 TrafficLight_SetState(TL_CurrState);
             }
             break;
-
         case TL_EW_YELLOW:
             if(ewTimer > 0)     ewTimer--;
             if(snTimer > 0) 	snTimer--;
@@ -178,20 +186,19 @@ void App_Traffic_Normal(void)
                 TrafficLight_SetState(TL_CurrState);
             }
             break;
-
         default:
             break;
     }
 }
 
 /**
- * @brief      交通灯全红模式
- * @param       
- * @return     
- * @example    
- * @attention  
+ * @brief      交通灯全红模式（四向禁止通行）
+ * @param      void 无 
+ * @return     void
+ * @example    App_Traffic_AllRed();
+ * @attention  内部调用
  */
-void App_Traffic_AllRed(void)
+static void App_Traffic_AllRed(void)
 {
     if(secFlag != 1)  return;
     else if(secFlag == 1) secFlag = 0;
@@ -203,12 +210,12 @@ void App_Traffic_AllRed(void)
 
 /**
  * @brief      交通灯夜间黄闪模式
- * @param       
- * @return     
- * @example    
- * @attention  
+ * @param      void 无 
+ * @return     void
+ * @example    App_Traffic_YallowBlink();
+ * @attention  内部调用
  */
-void App_Traffic_YallowBlink(void)
+static void App_Traffic_YallowBlink(void)
 {
     if(halfFlag != 1)  return;
     else if(halfFlag == 1) halfFlag = 0;
@@ -222,12 +229,12 @@ void App_Traffic_YallowBlink(void)
 
 /**
  * @brief      南北/东西一方禁止通行
- * @param       
- * @return     
- * @example    
- * @attention  按键控制方向变化
+ * @param      void 无 
+ * @return     void 
+ * @example    App_Traffic_SingleRed();
+ * @attention  内部调用，按键控制方向变化
  */
-void App_Traffic_SingleRed(void)
+static void App_Traffic_SingleRed(void)
 {
     if(secFlag != 1)  return;
     else if(secFlag == 1) secFlag = 0;
@@ -239,12 +246,11 @@ void App_Traffic_SingleRed(void)
     ewTimer = 0;    
 }
 
-
 /**
  * @brief      交通灯模式切换控制
  * @param      KEY_NUM key 传入的按键键码 
- * @return     
- * @example    
+ * @return     void 
+ * @example    App_TrafficMode_Switch(KEY1);
  * @attention  
  */
 void App_TrafficMode_Switch(KEY_NUM key)
@@ -275,9 +281,9 @@ void App_TrafficMode_Switch(KEY_NUM key)
 
 /**
  * @brief      交通灯执行控制中心，调度运行
- * @param       
- * @return     
- * @example    
+ * @param      void 无 
+ * @return     void 
+ * @example    App_Traffic_ModeRun();
  * @attention  
  */
 void App_Traffic_ModeRun(void)
@@ -293,14 +299,3 @@ void App_Traffic_ModeRun(void)
     }
 }
 
-
-// 由于proteus8.17中仿真时使用8MHz不会卡顿，所以实际1ms需要改成1/9ms
-// 因此count计数也相应变为原来的1/9 即5s即5000变成5000/9约555 1s
-/**
- * 5000 -> 556
- * 7000 -> 778
- * 12000 -> 1334
- * 14000 -> 1556
- * 1000 -> 111
- * 
- */
