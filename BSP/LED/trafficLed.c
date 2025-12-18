@@ -126,8 +126,9 @@ void Traffic_SN_RED(void)
 {
     // 关闭交通灯
     TrafficLight_AllOff();  
-    // 南北向红灯
+    // 南北向红灯,东西向绿灯
     LED_ON(SN_PORT, SN_RED_PIN);  
+    LED_ON(EW_PORT, EW_GREEN_PIN);
 }   
 
 /**
@@ -141,8 +142,9 @@ void Traffic_EW_RED(void)
 {
     // 关闭交通灯
     TrafficLight_AllOff();  
-    // 南北向红灯
+    // 东西向红灯，南北向绿灯
     LED_ON(EW_PORT, EW_RED_PIN);  
+    LED_ON(SN_PORT, SN_GREEN_PIN);
 }   
 
 
