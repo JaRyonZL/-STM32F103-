@@ -44,6 +44,7 @@ void App_TrafficMode_Switch(KEY_NUM key);
 void App_Traffic_ModeRun(void);
 void App_Traffic_AllRed(void);
 void App_Traffic_YallowBlink(void);
+void TrafficLight_YellowBlink(void);
 
 void TrafficLightSeg_Test(void);
 

@@ -181,3 +181,28 @@ void TrafficLight_SN_YellowBlink(void)
     LED_ON(EW_PORT, EW_RED_PIN);
 }
 
+/**
+ * @brief      四向向黄灯闪烁,夜间黄闪
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void TrafficLight_YellowBlink(void)
+{
+    static uint8_t state = 1;
+    // 关闭交通灯
+    TrafficLight_AllOff();
+    if (state == 0)
+    {
+        LED_ON(SN_PORT, SN_YALLOW_PIN);
+        LED_ON(SN_PORT, EW_YALLOW_PIN);
+        state = 1;
+    }
+    else
+    {
+        LED_OFF(SN_PORT, SN_YALLOW_PIN);
+        LED_OFF(SN_PORT, EW_YALLOW_PIN);
+        state = 0;
+    }
+}

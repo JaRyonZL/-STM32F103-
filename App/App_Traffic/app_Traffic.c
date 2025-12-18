@@ -168,8 +168,7 @@ void App_Traffic_AllRed(void)
 void App_Traffic_YallowBlink(void)
 {
     // 四向黄灯闪烁
-    TrafficLight_SN_YellowBlink();
-    TrafficLight_EW_YellowBlink();
+    TrafficLight_YellowBlink();
     // 倒计时清零
     snTimer = 0;
     ewTimer = 0;
