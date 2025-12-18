@@ -9,7 +9,8 @@
 
 uint8_t snTimer = 30;
 uint8_t ewTimer = 30;
-uint8_t timerFlag = 0;
+uint8_t secFlag = 0;
+uint8_t halfFlag = 0;
 
 uint8_t yellowOn = 1; // 1=亮，0=灭
 uint16_t yellowTick = 0; // 毫秒计数
@@ -57,6 +58,32 @@ static void TrafficLight_SetState(TrafficLightState state)
 }
 
 /**
+ * @brief      交通灯控制触发计时器
+ * @param       
+ * @return     
+ * @example    
+ * @attention  
+ */
+void App_Taffic_Tick(void)
+{
+    static uint32_t count1 = 0;
+    static uint32_t count2 = 0;
+    count1++;
+    count2++;
+
+    if (count1 == 50) // 0.5秒到达
+    {
+        count1 = 0;
+        halfFlag = 1; 
+    }
+    if(count2 == 100) // 1s到达
+    {
+        count2 = 0;
+        secFlag = 1;
+    }
+}
+
+/**
  * @brief      交通灯初始化
  * @param       
  * @return     
@@ -85,8 +112,8 @@ void App_Traffic_Init(void)
 // 正常模式
 void App_Traffic_Normal(void)
 {
-    if(timerFlag != 2)  return;
-    else if(timerFlag == 2) timerFlag = 0;
+    if(secFlag != 1)  return;
+    else if(secFlag == 1) secFlag = 0;
 
     switch(TL_CurrState)
     {
@@ -156,8 +183,8 @@ void App_Traffic_Normal(void)
  */
 void App_Traffic_AllRed(void)
 {
-    if(timerFlag != 2)  return;
-    else if(timerFlag == 2) timerFlag = 0;
+    if(secFlag != 1)  return;
+    else if(secFlag == 1) secFlag = 0;
 
     TrafficLight_All_Red();
     snTimer = 0;
@@ -173,8 +200,8 @@ void App_Traffic_AllRed(void)
  */
 void App_Traffic_YallowBlink(void)
 {
-    if(timerFlag != 1)  return;
-    else if(timerFlag == 1) timerFlag = 0;
+    if(halfFlag != 1)  return;
+    else if(halfFlag == 1) halfFlag = 0;
 
     // 四向黄灯闪烁
     TrafficLight_YellowBlink();

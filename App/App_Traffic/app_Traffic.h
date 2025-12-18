@@ -30,7 +30,8 @@ typedef enum
 
 extern uint8_t snTimer;
 extern uint8_t ewTimer;
-extern uint8_t timerFlag;
+extern uint8_t secFlag;
+extern uint8_t halfFlag;
 extern uint8_t yellowOn;
 extern uint16_t yellowTick;
 
@@ -39,6 +40,7 @@ extern TrafficMode T_CurrMode;
 
 
 void App_Traffic_Init(void);
+void App_Taffic_Tick(void);
 void App_Traffic_Normal(void);
 void App_TrafficMode_Switch(KEY_NUM key);
 void App_Traffic_ModeRun(void);
