@@ -64,13 +64,14 @@
 - 外部 8 MHz 晶振（Proteus 仿真使用 8 MHz，避免高频卡顿）
 
 ## 软件架构
+```text
 STM32F103
-├── Start               // 启动文件
+├── Start               // 启动文件（startup_stm32f10x_md.s 等）
 ├── System              // 系统核心文件（如 core_cm3.c、system_stm32f10x.c 等）
 ├── User                // 主程序及配置
-│   ├── main.c
-│   └── config.h
-├── Inc                 // 所有头文件目录
+│   ├── main.c          // 主函数入口
+│   └── config.h        // 全局引脚与时间宏定义
+├── Inc                 // 所有头文件目录（可选集中放置）
 ├── Drivers/GPIO        // GPIO 驱动
 │   ├── gpio.c
 │   └── gpio.h
@@ -90,8 +91,8 @@ STM32F103
 │   ├── key.c
 │   └── key.h
 └── App/App_Traffic     // 应用层交通灯逻辑
-├── app_Traffic.c
-└── app_Traffic.h
+    ├── app_Traffic.c
+    └── app_Traffic.h
 
 ### 关键设计说明
 
