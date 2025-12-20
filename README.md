@@ -93,7 +93,7 @@ STM32F103
 └── App/App_Traffic     // 应用层交通灯逻辑
     ├── app_Traffic.c
     └── app_Traffic.h
-```text
+```
 
 ### 关键设计说明
 
